@@ -1,5 +1,13 @@
 import { inject, OnInit } from '@angular/core';
-import { patchState, signalStore, withHooks, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withHooks,
+  withLinkedState,
+  withMethods,
+  withProps,
+  withState,
+} from '@ngrx/signals';
 import { CoreService } from '../services/core-service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
@@ -20,14 +28,17 @@ const initialState: AppState = {
 export const AppStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withMethods((store, coreService = inject(CoreService)) => ({
+  withProps(() => ({
+    coreService: inject(CoreService),
+  })),
+  withMethods(({ coreService, ...store }) => ({
     login: rxMethod<void>(
       pipe(
         tap(() => patchState(store, { isLoading: true })),
         switchMap(() => {
           return coreService.getUserName().pipe(
             tapResponse({
-              next: (name) => patchState(store, { user: { name }, isAuthenticated: true }),
+              next: (name: string) => patchState(store, { user: { name }, isAuthenticated: true }),
               error: console.error,
               finalize: () => patchState(store, { isLoading: false }),
             })

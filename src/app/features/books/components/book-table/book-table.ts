@@ -1,13 +1,10 @@
-import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
 import { BookStore } from '../../books.store';
 
 @Component({
   selector: 'app-book-table',
-  imports: [NgClass],
   templateUrl: './book-table.html',
   styleUrl: './book-table.scss',
-  providers: [BookStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookTable implements OnInit {
@@ -23,5 +20,9 @@ export class BookTable implements OnInit {
   public onChangeOrder() {
     const newOrder = this.store.filter.order() === 'asc' ? 'desc' : 'asc';
     this.store.updateOrder(newOrder);
+  }
+
+  public selectBook(bookId: string): void {
+    this.store.selectBook(bookId);
   }
 }

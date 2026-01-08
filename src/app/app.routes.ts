@@ -2,11 +2,12 @@ import { Routes } from '@angular/router';
 import { BookTable } from './features/books/components/book-table/book-table';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/books', pathMatch: 'full' },
+  { path: '', redirectTo: '/books-shell', pathMatch: 'full' },
+
   {
-    path: 'books',
+    path: 'books-shell',
     loadComponent: () =>
-      import('./features/books/components/book-table/book-table').then((m) => m.BookTable),
+      import('./features/books/components/books-shell/books-shell').then((m) => m.BooksShell),
   },
   {
     path: 'counter',

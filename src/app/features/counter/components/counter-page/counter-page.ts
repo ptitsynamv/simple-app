@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CounterStore } from '../../counter.store';
 import { AppStore } from '../../../../core/stores/app.store';
+import { getState } from '@ngrx/signals';
 
 @Component({
   selector: 'app-counter-page',
@@ -10,6 +11,9 @@ import { AppStore } from '../../../../core/stores/app.store';
   providers: [CounterStore],
 })
 export class CounterPage {
-  private readonly store = inject(CounterStore);
-  public readonly appStore = inject(AppStore);
+  public readonly store = inject(CounterStore);
+
+  constructor() {
+    (window as any).debugStore = () => console.log(getState(this.store));
+  }
 }
