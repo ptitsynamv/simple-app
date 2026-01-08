@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CounterStore } from '../../counter.store';
+import { AppStore } from '../../../../core/stores/app.store';
 
 @Component({
   selector: 'app-counter-page',
@@ -10,4 +11,5 @@ import { CounterStore } from '../../counter.store';
 })
 export class CounterPage {
   private readonly store = inject(CounterStore);
+  public readonly appStore = inject(AppStore);
 }

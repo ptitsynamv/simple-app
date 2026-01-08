@@ -13,14 +13,6 @@ export class App {
   readonly store = inject(AppStore);
 
   constructor() {
-    this.store.setLoading(true);
-    const success = await this.authService.authenticate(this.username, this.password);
-    if (success) {
-      this.authStore.loginSuccess(this.authService.getCurrentUser());
-      // Navigate to dashboard
-    } else {
-      this.authStore.setLoading(false);
-      // Show error
-    }
+    this.store.login();
   }
 }

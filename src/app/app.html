@@ -1,16 +1,29 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand bg-light border-bottom px-4">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/">Simple App</a>
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <span class="navbar-brand fw-semibold"> Simple App </span>
+
+    <ul class="navbar-nav me-auto ms-4 gap-3">
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" aria-current="page" routerLink="/"
-          >Book Table</a
-        >
+        <a class="nav-link" routerLink="/books" routerLinkActive="active"> Book Table </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" routerLink="/counter">Counter</a>
+        <a class="nav-link" routerLink="/counter" routerLinkActive="active"> Counter </a>
       </li>
     </ul>
+
+    @if(store.isLoading()){
+    <div class="spinner-border spinner-border-sm text-secondary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    } @if(!store.isLoading() && store.isAuthenticated() && store.user()){
+    <div class="d-flex align-items-center gap-2">
+      <i class="bi bi-person-circle fs-4 text-primary"></i>
+      <span class="fw-medium">{{ store.user()?.name }}</span>
+    </div>
+    } @if(!store.isLoading() && !store.isAuthenticated()){
+    <i class="bi bi-person-circle fs-4 text-muted"></i>
+    <span class="text-muted">Guest</span>
+    }
   </div>
 </nav>
 
