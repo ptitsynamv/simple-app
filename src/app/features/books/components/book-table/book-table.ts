@@ -5,7 +5,6 @@ import { BookStore } from '../../books.store';
   selector: 'app-book-table',
   templateUrl: './book-table.html',
   styleUrl: './book-table.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BookTable implements OnInit {
   readonly store = inject(BookStore);

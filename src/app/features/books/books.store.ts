@@ -35,11 +35,6 @@ export const BookStore = signalStore(
   withProps(() => ({
     booksService: inject(BookService),
   })),
-  withLinkedState(({ books, selectedId, ...store }) => ({
-    selectedBook: () => {
-      return books().find((b) => b.id === selectedId()) ?? null;
-    },
-  })),
   withComputed(({ books, filter }) => ({
     visibleBooks: computed(() => {
       const direction = filter.order() === 'asc' ? 1 : -1;
@@ -48,6 +43,14 @@ export const BookStore = signalStore(
         .filter((book) => book.title.toLowerCase().includes(query))
         .sort((a, b) => direction * a.title.localeCompare(b.title));
     }),
+  })),
+  withLinkedState(({ books, selectedId, ...store }) => ({
+    selectedBook: () => {
+      return books().find((b) => b.id === selectedId()) ?? null;
+    },
+    editTitle: () => {
+      return books().find((b) => b.id === selectedId())?.title ?? '';
+    },
   })),
   withMethods(({ booksService, ...store }) => ({
     updateQueryDebounced$: rxMethod<string>(
@@ -84,6 +87,17 @@ export const BookStore = signalStore(
     ),
     selectBook(id: string | null) {
       patchState(store, { selectedId: id });
+    },
+    updateEditTitle(title: string): void {
+      patchState(store, { editTitle: title });
+    },
+    saveTitle(): void {
+      const currentId = store.selectedId();
+      const newTitle = store.editTitle();
+
+      patchState(store, (state) => ({
+        books: state.books.map((b) => (b.id === currentId ? { ...b, title: newTitle } : b)),
+      }));
     },
   }))
 );

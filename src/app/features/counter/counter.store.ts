@@ -1,7 +1,9 @@
-import { computed } from '@angular/core';
+import { computed, effect } from '@angular/core';
 import {
+  getState,
   patchState,
   signalStore,
+  watchState,
   withComputed,
   withHooks,
   withMethods,
@@ -31,5 +33,19 @@ export const CounterStore = signalStore(
     reset(): void {
       patchState(store, { count: 0 });
     },
-  }))
+  })),
+  withHooks({
+    onInit(store) {
+      watchState(store, (state) => {
+        console.log('[watchState] counter state', state);
+      }); // logs: { count: 0 }, { count: 1 }, { count: 2 }
+
+      effect(() => {
+        console.log('[effect] counter state', getState(store));
+      }); // logs: { count: 2 }
+
+      store.increment();
+      store.increment();
+    },
+  })
 );
