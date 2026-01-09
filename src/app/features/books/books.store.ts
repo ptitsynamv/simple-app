@@ -6,10 +6,11 @@ import {
   withMethods,
   withProps,
   withState,
+  type,
 } from '@ngrx/signals';
 import { computed, inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { debounceTime, distinctUntilChanged, switchMap, tap, pipe } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, tap, pipe, filter } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { Book, BookOrder } from './book.interface';
 import { BookService } from './services/book';
@@ -19,26 +20,49 @@ import {
   setPending,
   withRequestStatus,
 } from '../../core/stores/request-status.store';
+import {
+  eventGroup,
+  on,
+  ReducerEvents,
+  withEventHandlers,
+  withReducer,
+} from '@ngrx/signals/events';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 type BookState = {
   books: Book[];
-  // isLoading: boolean;
   filter: { query: string; order: BookOrder };
   selectedId: string | null;
 };
 
 const initialState: BookState = {
   books: [],
-  // isLoading: false,
   filter: { query: '', order: 'asc' },
   selectedId: null,
 };
 
+export const bookSearchEvents = eventGroup({
+  source: 'Book Search Page',
+  events: {
+    queryChanged: type<{ query: string }>(),
+    orderChanged: type<{ order: BookOrder }>(),
+  },
+});
+
 export const BookStore = signalStore(
   withState(initialState),
   withRequestStatus(),
+  withReducer(
+    on(bookSearchEvents.orderChanged, ({ payload }, state) => ({
+      filter: {
+        ...state.filter,
+        ...payload,
+      },
+    }))
+  ),
   withProps(() => ({
     _booksService: inject(BookService),
+    _announcer: inject(LiveAnnouncer),
   })),
   withComputed(({ books, filter, selectedId }) => ({
     visibleBooks: computed(() => {
@@ -55,23 +79,18 @@ export const BookStore = signalStore(
       return selectedBook()?.title ?? '';
     },
   })),
-  withMethods(({ _booksService, ...store }) => ({
-    updateQueryDebounced$: rxMethod<string>(
-      pipe(
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap((query) => {
-          patchState(store, (state) => ({
-            filter: { ...state.filter, query },
-          }));
-        })
+  withEventHandlers((store, events = inject(ReducerEvents)) => [
+    events.on(bookSearchEvents.queryChanged).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(({ payload }) =>
+        patchState(store, (state) => ({
+          filter: { ...state.filter, ...payload },
+        }))
       )
     ),
-    updateOrder(order: BookOrder): void {
-      patchState(store, (state) => ({
-        filter: { ...state.filter, order },
-      }));
-    },
+  ]),
+  withMethods(({ _booksService, _announcer, ...store }) => ({
     loadBooks: rxMethod<void>(
       pipe(
         debounceTime(300),
@@ -80,7 +99,10 @@ export const BookStore = signalStore(
         switchMap(() => {
           return _booksService.getByQuery().pipe(
             tapResponse({
-              next: (books: Book[]) => patchState(store, { books }),
+              next: (books: Book[]) => {
+                patchState(store, { books });
+                _announcer.announce(`Loaded ${books.length} books`);
+              },
               error: (error: Error) => patchState(store, setError(error.message)),
               finalize: () => patchState(store, setFulfilled),
             })

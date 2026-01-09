@@ -6,7 +6,7 @@
           <h4 class="mb-0">Library Catalog</h4>
         </div>
         <div class="col-6">
-          <div class="input-group">
+          <div role="search" class="input-group">
             <span class="input-group-text bg-light border-end-0">
               <i class="bi bi-search">🔍</i>
             </span>
@@ -15,7 +15,7 @@
               class="form-control border-start-0 ps-0"
               placeholder="Search title or author..."
               [value]="store.filter.query()"
-              (input)="store.updateQueryDebounced$($any($event.target).value)"
+              (input)="onUpdateQuery($any($event.target).value)"
             />
           </div>
         </div>
@@ -47,7 +47,6 @@
               <button class="btn btn-sm btn-outline-primary me-1" (click)="selectBook(book.id)">
                 Edit
               </button>
-              <button class="btn btn-sm btn-outline-danger">Delete</button>
             </td>
           </tr>
           } @empty {
