@@ -5,6 +5,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
 import { setError, setFulfilled, setPending, withRequestStatus } from './request-status.store';
+import { withLastFocusedElement } from './a11y.store';
 
 type AppState = {
   user: { name: string } | null;
@@ -23,6 +24,7 @@ export const AppStore = signalStore(
     coreService: inject(CoreService),
   })),
   withRequestStatus(),
+  withLastFocusedElement(),
   withMethods(({ coreService, ...store }) => ({
     login: rxMethod<void>(
       pipe(

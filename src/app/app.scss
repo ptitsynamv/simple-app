@@ -1,0 +1,13 @@
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  background: #0d6efd;
+  color: white;
+  padding: 8px;
+  z-index: 1050;
+}
+
+.skip-link:focus-visible {
+  top: 0; /* Only visible when focused via keyboard */
+}

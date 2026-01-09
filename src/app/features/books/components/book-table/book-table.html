@@ -1,38 +1,61 @@
 <div class="container mt-4">
-  <div class="card shadow-sm">
+  <div class="card shadow-sm border-0">
     <div class="card-header bg-white py-3">
       <div class="row align-items-center">
         <div class="col">
-          <h4 class="mb-0">Library Catalog</h4>
+          <h1 class="h4 mb-0">Library Catalog</h1>
         </div>
         <div class="col-6">
-          <div role="search" class="input-group">
-            <span class="input-group-text bg-light border-end-0">
-              <i class="bi bi-search">🔍</i>
-            </span>
-            <input
-              type="text"
-              class="form-control border-start-0 ps-0"
-              placeholder="Search title or author..."
-              [value]="store.filter.query()"
-              (input)="onUpdateQuery($any($event.target).value)"
-            />
+          <div role="search">
+            <label for="bookSearch" class="visually-hidden">Search books by title</label>
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0" aria-hidden="true">
+                <i class="bi bi-search">🔍</i>
+              </span>
+              <input
+                id="bookSearch"
+                type="text"
+                class="form-control border-start-0 ps-0"
+                placeholder="Search title"
+                [value]="store.filter.query()"
+                (input)="onUpdateQuery($any($event.target).value)"
+                aria-describedby="searchHelp"
+              />
+            </div>
+            <div id="searchHelp" class="visually-hidden">
+              Results update automatically as you type.
+            </div>
           </div>
         </div>
       </div>
     </div>
 
+    <div class="visually-hidden" aria-live="polite">
+      {{ store.visibleBooks().length }} books found.
+    </div>
+
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0">
+      <table class="table table-hover align-middle mb-0" aria-labelledby="catalog-heading">
         <thead class="table-light">
           <tr>
-            <th style="width: 10%">ID</th>
-            <th (click)="onChangeOrder()" style="cursor: pointer" class="user-select-none">
-              Title
-              <span>{{ store.filter.order() === 'asc' ? '↑' : '↓' }}</span>
+            <th scope="col" style="width: 10%">ID</th>
+            <th
+              scope="col"
+              [attr.aria-sort]="store.filter.order() === 'asc' ? 'ascending' : 'descending'"
+            >
+              <button
+                type="button"
+                class="btn btn-link p-0 text-dark fw-bold text-decoration-none d-flex align-items-center"
+                (click)="onChangeOrder()"
+                aria-label="Sort by title"
+              >
+                Title
+                <span class="ms-1" aria-hidden="true">
+                  {{ store.filter.order() === 'asc' ? '↑' : '↓' }}
+                </span>
+              </button>
             </th>
-
-            <th class="text-end">Actions</th>
+            <th scope="col" class="text-end">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -42,17 +65,20 @@
               <span class="text-muted small">#{{ book.id }}</span>
             </td>
             <td class="fw-bold">{{ book.title }}</td>
-
             <td class="text-end">
-              <button class="btn btn-sm btn-outline-primary me-1" (click)="selectBook(book.id)">
+              <button
+                class="btn btn-sm btn-outline-primary"
+                (click)="selectBook(book.id)"
+                [attr.aria-label]="'Edit book: ' + book.title"
+              >
                 Edit
               </button>
             </td>
           </tr>
           } @empty {
           <tr>
-            <td colspan="5" class="text-center py-5 text-muted">
-              No books found matching "{{ store.filter.query() }}"
+            <td colspan="3" class="text-center py-5 text-muted">
+              <p role="status">No books found matching "{{ store.filter.query() }}"</p>
             </td>
           </tr>
           }

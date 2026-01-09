@@ -1,18 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AppStore } from './core/stores/app.store';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { Navbar } from './core/components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('simple');
-  readonly store = inject(AppStore);
+  @ViewChild('mainContent', { static: false }) mainContent!: ElementRef<HTMLElement>;
 
-  constructor() {
-    this.store.login();
+  skipToContent(event: Event) {
+    event.preventDefault();
+    if (this.mainContent) {
+      this.mainContent.nativeElement.focus();
+    }
   }
 }

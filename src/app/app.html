@@ -1,30 +1,12 @@
-<nav class="navbar navbar-expand bg-light border-bottom px-4">
-  <div class="container-fluid">
-    <span class="navbar-brand fw-semibold"> Simple App </span>
+<button
+  class="visually-hidden-focusable p-2 bg-primary text-white skip-link"
+  (click)="skipToContent($event)"
+>
+  Skip to main content
+</button>
 
-    <ul aria-labelledby="site-nav" role="navigation" class="navbar-nav me-auto ms-4 gap-3">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/books-shell" routerLinkActive="active"> Book </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/counter" routerLinkActive="active"> Counter </a>
-      </li>
-    </ul>
+<app-navbar />
 
-    @if(store.isPending()){
-    <div class="spinner-border spinner-border-sm text-secondary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    } @if(store.isFulfilled() && store.isAuthenticated() && store.user()){
-    <div class="d-flex align-items-center gap-2">
-      <i class="bi bi-person-circle fs-4 text-primary"></i>
-      <span class="fw-medium">{{ store.user()?.name }}</span>
-    </div>
-    } @if(store.error()){
-    <i class="bi bi-person-circle fs-4 text-muted"></i>
-    <span class="text-muted">Error</span>
-    }
-  </div>
-</nav>
-
-<router-outlet />
+<main #mainContent id="main-content" tabindex="-1">
+  <router-outlet />
+</main>

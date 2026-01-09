@@ -1,12 +1,33 @@
-<div role="main" class="row">
-  @if(store.isPending()) {
-  <div class="d-flex justify-content-center align-items-center" style="height: 200px">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+<main class="container-fluid mt-4">
+  <div class="row" cdkMonitorSubtreeFocus>
+    @if(store.isPending()) {
+    <div
+      class="col-12 d-flex flex-column justify-content-center align-items-center"
+      style="min-height: 200px"
+      aria-busy="true"
+      aria-live="polite"
+    >
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading library catalog and book details...</span>
+      </div>
     </div>
+    } @if(store.isFulfilled()) {
+    <section class="col-md-6" aria-labelledby="table-header">
+      <h2 id="table-header" class="visually-hidden">Book List</h2>
+      <app-book-table />
+    </section>
+
+    <section class="col-md-6" aria-labelledby="details-header">
+      <h2 id="details-header" class="visually-hidden">Book Selection Details</h2>
+      <div aria-live="polite">
+        <app-book-details />
+      </div>
+    </section>
+    } @if(store.error()) {
+    <div class="col-12 alert alert-danger" role="alert">
+      <h2 class="h5">Unable to load data</h2>
+      <p>Please check your connection and try again.</p>
+    </div>
+    }
   </div>
-  } @if(store.isFulfilled()) {
-  <div class="col-6"><app-book-table /></div>
-  <div class="col-6"><app-book-details /></div>
-  }
-</div>
+</main>

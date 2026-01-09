@@ -1,6 +1,10 @@
 <div class="container mt-5">
   @if (store.selectedBook(); as book) {
-  <div class="card shadow-lg border-0 overflow-hidden">
+  <article
+    class="card shadow-lg border-0 overflow-hidden"
+    aria-labelledby="book-detail-title"
+    role="region"
+  >
     <div class="row g-0">
       <div class="col">
         <div class="card-body p-5">
@@ -9,32 +13,42 @@
           </nav>
 
           <div class="mb-4">
-            <label class="form-label text-muted small fw-bold text-uppercase">Edit Title</label>
+            <label for="editTitleInput" class="form-label text-muted small fw-bold text-uppercase">
+              Edit Title
+            </label>
             <div class="input-group input-group-lg">
               <input
+                id="editTitleInput"
                 type="text"
                 class="form-control border-primary-subtle shadow-sm"
                 [ngModel]="store.editTitle()"
                 (ngModelChange)="store.updateEditTitle($event)"
                 placeholder="Enter new title..."
+                aria-describedby="unsavedChangesStatus"
               />
               <button
                 class="btn btn-primary px-4"
                 type="button"
-                (click)="store.saveTitle()"
+                (click)="onSaveTitle()"
                 [disabled]="store.editTitle() === book.title"
+                [attr.aria-label]="'Save changes to ' + book.title"
               >
                 Save
               </button>
             </div>
-            @if (store.editTitle() !== book.title) {
-            <div class="form-text text-warning">
-              <i class="bi bi-info-circle"></i> You have unsaved changes
+
+            <div id="unsavedChangesStatus" aria-live="polite" class="mt-1 min-height-20">
+              @if (store.editTitle() !== book.title) {
+              <span class="form-text text-warning fw-bold">
+                <i class="bi bi-info-circle" aria-hidden="true"></i> You have unsaved changes
+              </span>
+              }
             </div>
-            }
           </div>
 
-          <h1 class="display-4 fw-bold mb-3 text-dark">{{ book.title }}</h1>
+          <h1 id="book-detail-title" class="display-4 fw-bold mb-3 text-dark">
+            {{ book.title }}
+          </h1>
 
           <p class="text-secondary mb-4">
             Master the art of software engineering with this essential guide. This book is a
@@ -45,14 +59,27 @@
             <button
               class="btn btn-lg px-4 border"
               [ngClass]="{ 'btn-outline-primary': book.isRead, 'btn-light': !book.isRead }"
-              (click)="store.updateBookInfo(book.id, { isRead: !book.isRead })"
+              (click)="onUpdateBook(book.id, { isRead: !book.isRead })"
+              [attr.aria-pressed]="book.isRead"
+              [attr.aria-label]="
+                book.isRead
+                  ? 'Mark ' + book.title + ' as unread'
+                  : 'Mark ' + book.title + ' as read'
+              "
             >
               {{ book.isRead ? 'Mark as Unread' : 'Mark as Read' }}
             </button>
+
             <button
               class="btn btn-lg px-4 border"
               [ngClass]="{ 'btn-outline-primary': book.isFavorite, 'btn-light': !book.isFavorite }"
-              (click)="store.updateBookInfo(book.id, { isFavorite: !book.isFavorite })"
+              (click)="onUpdateBook(book.id, { isFavorite: !book.isFavorite })"
+              [attr.aria-pressed]="book.isFavorite"
+              [attr.aria-label]="
+                book.isFavorite
+                  ? 'Remove ' + book.title + ' from favorites'
+                  : 'Add ' + book.title + ' to favorites'
+              "
             >
               {{ book.isFavorite ? 'Remove from favorites' : 'Add to Favorites' }}
             </button>
@@ -60,10 +87,10 @@
         </div>
       </div>
     </div>
-  </div>
+  </article>
   } @else {
-  <div class="alert alert-info shadow-sm border-0 py-4" role="alert">
-    <h4 class="alert-heading mb-0 text-center">Please Select a Book from the Table</h4>
+  <div class="alert alert-info shadow-sm border-0 py-4 text-center" role="status">
+    <h2 class="h4 alert-heading mb-0">Please Select a Book from the Table</h2>
   </div>
   }
 </div>
