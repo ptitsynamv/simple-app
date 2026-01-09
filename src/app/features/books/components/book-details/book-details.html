@@ -42,8 +42,20 @@
           </p>
 
           <div class="d-flex gap-3 mt-5">
-            <button class="btn btn-light btn-lg px-4 border">Mark as Read</button>
-            <button class="btn btn-outline-secondary btn-lg px-4">Add to Favorites</button>
+            <button
+              class="btn btn-lg px-4 border"
+              [ngClass]="{ 'btn-outline-primary': book.isRead, 'btn-light': !book.isRead }"
+              (click)="store.updateBookInfo(book.id, { isRead: !book.isRead })"
+            >
+              {{ book.isRead ? 'Mark as Unread' : 'Mark as Read' }}
+            </button>
+            <button
+              class="btn btn-lg px-4 border"
+              [ngClass]="{ 'btn-outline-primary': book.isFavorite, 'btn-light': !book.isFavorite }"
+              (click)="store.updateBookInfo(book.id, { isFavorite: !book.isFavorite })"
+            >
+              {{ book.isFavorite ? 'Remove from favorites' : 'Add to Favorites' }}
+            </button>
           </div>
         </div>
       </div>

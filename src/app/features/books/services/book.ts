@@ -6,18 +6,18 @@ import { Book } from '../book.interface';
   providedIn: 'root',
 })
 export class BookService {
-  public getByQuery(query: string): Observable<Book[]> {
-    const data = [
-      { id: '1', title: 'Clean Code' },
-      { id: '2', title: 'The Pragmatic Programmer' },
-      { id: '3', title: 'You Don’t Know JS' },
-      { id: '4', title: 'Design Patterns' },
-      { id: '5', title: 'Refactoring' },
-      { id: '6', title: 'JavaScript: The Good Parts' },
-      { id: '7', title: 'Domain-Driven Design' },
-      { id: '8', title: 'Microservices Patterns' },
-      { id: '9', title: 'Effective TypeScript' },
-      { id: '10', title: 'Angular in Action' },
+  public getByQuery(): Observable<Book[]> {
+    const data: Book[] = [
+      { id: '1', title: 'Clean Code', isRead: false, isFavorite: false },
+      { id: '2', title: 'The Pragmatic Programmer', isRead: false, isFavorite: false },
+      { id: '3', title: 'You Don’t Know JS', isRead: false, isFavorite: false },
+      { id: '4', title: 'Design Patterns', isRead: false, isFavorite: false },
+      { id: '5', title: 'Refactoring', isRead: false, isFavorite: false },
+      { id: '6', title: 'JavaScript: The Good Parts', isRead: false, isFavorite: false },
+      { id: '7', title: 'Domain-Driven Design', isRead: false, isFavorite: false },
+      { id: '8', title: 'Microservices Patterns', isRead: false, isFavorite: false },
+      { id: '9', title: 'Effective TypeScript', isRead: false, isFavorite: false },
+      { id: '10', title: 'Angular in Action', isRead: false, isFavorite: false },
     ];
     return of(data).pipe(delay(1000));
   }

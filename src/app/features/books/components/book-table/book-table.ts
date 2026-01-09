@@ -9,11 +9,6 @@ import { BookStore } from '../../books.store';
 export class BookTable implements OnInit {
   readonly store = inject(BookStore);
 
-  constructor() {
-    const query = this.store.filter.query;
-    this.store.loadByQuery(query);
-  }
-
   public ngOnInit(): void {}
 
   public onChangeOrder() {

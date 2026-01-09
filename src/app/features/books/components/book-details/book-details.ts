@@ -1,11 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { BookStore } from '../../books.store';
-import { FormsModule, NgModel } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, NgClass],
   templateUrl: './book-details.html',
   styleUrl: './book-details.scss',
 })

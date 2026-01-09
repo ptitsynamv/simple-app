@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BookStore } from '../../books.store';
 import { BookTable } from '../book-table/book-table';
 import { BookDetails } from '../book-details/book-details';
@@ -10,4 +10,10 @@ import { BookDetails } from '../book-details/book-details';
   templateUrl: './books-shell.html',
   styleUrl: './books-shell.scss',
 })
-export class BooksShell {}
+export class BooksShell {
+  public readonly store = inject(BookStore);
+
+  constructor() {
+    this.store.loadBooks();
+  }
+}

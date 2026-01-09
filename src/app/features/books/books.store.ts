@@ -2,40 +2,45 @@ import {
   patchState,
   signalStore,
   withComputed,
-  withHooks,
   withLinkedState,
   withMethods,
   withProps,
   withState,
 } from '@ngrx/signals';
-import { computed, inject, linkedSignal } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { debounceTime, distinctUntilChanged, switchMap, tap, pipe, interval } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, tap, pipe } from 'rxjs';
 import { tapResponse } from '@ngrx/operators';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Book, BookOrder } from './book.interface';
 import { BookService } from './services/book';
+import {
+  setError,
+  setFulfilled,
+  setPending,
+  withRequestStatus,
+} from '../../core/stores/request-status.store';
 
 type BookState = {
   books: Book[];
-  isLoading: boolean;
+  // isLoading: boolean;
   filter: { query: string; order: BookOrder };
   selectedId: string | null;
 };
 
 const initialState: BookState = {
   books: [],
-  isLoading: false,
+  // isLoading: false,
   filter: { query: '', order: 'asc' },
   selectedId: null,
 };
 
 export const BookStore = signalStore(
   withState(initialState),
+  withRequestStatus(),
   withProps(() => ({
-    booksService: inject(BookService),
+    _booksService: inject(BookService),
   })),
-  withComputed(({ books, filter }) => ({
+  withComputed(({ books, filter, selectedId }) => ({
     visibleBooks: computed(() => {
       const direction = filter.order() === 'asc' ? 1 : -1;
       const query = filter.query().toLowerCase();
@@ -43,16 +48,14 @@ export const BookStore = signalStore(
         .filter((book) => book.title.toLowerCase().includes(query))
         .sort((a, b) => direction * a.title.localeCompare(b.title));
     }),
+    selectedBook: computed(() => books().find((b) => b.id === selectedId()) ?? null),
   })),
-  withLinkedState(({ books, selectedId, ...store }) => ({
-    selectedBook: () => {
-      return books().find((b) => b.id === selectedId()) ?? null;
-    },
+  withLinkedState(({ books, selectedId, selectedBook, ...store }) => ({
     editTitle: () => {
-      return books().find((b) => b.id === selectedId())?.title ?? '';
+      return selectedBook()?.title ?? '';
     },
   })),
-  withMethods(({ booksService, ...store }) => ({
+  withMethods(({ _booksService, ...store }) => ({
     updateQueryDebounced$: rxMethod<string>(
       pipe(
         debounceTime(300),
@@ -69,17 +72,17 @@ export const BookStore = signalStore(
         filter: { ...state.filter, order },
       }));
     },
-    loadByQuery: rxMethod<string>(
+    loadBooks: rxMethod<void>(
       pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        tap(() => patchState(store, { isLoading: true })),
-        switchMap((query) => {
-          return booksService.getByQuery(query).pipe(
+        tap(() => patchState(store, setPending())),
+        switchMap(() => {
+          return _booksService.getByQuery().pipe(
             tapResponse({
               next: (books: Book[]) => patchState(store, { books }),
-              error: console.error,
-              finalize: () => patchState(store, { isLoading: false }),
+              error: (error: Error) => patchState(store, setError(error.message)),
+              finalize: () => patchState(store, setFulfilled),
             })
           );
         })
@@ -97,6 +100,11 @@ export const BookStore = signalStore(
 
       patchState(store, (state) => ({
         books: state.books.map((b) => (b.id === currentId ? { ...b, title: newTitle } : b)),
+      }));
+    },
+    updateBookInfo(id: string, indo: Partial<Record<'isRead' | 'isFavorite', boolean>>): void {
+      patchState(store, (state) => ({
+        books: state.books.map((b) => (b.id === id ? { ...b, ...indo } : b)),
       }));
     },
   }))
