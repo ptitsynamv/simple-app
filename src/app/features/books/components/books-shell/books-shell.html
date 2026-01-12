@@ -12,6 +12,10 @@
       </div>
     </div>
     } @if(store.isFulfilled()) {
+    <section class="col-12 mb-4">
+      <button type="button" class="btn btn-primary" (click)="openAddModal()">Add New Book</button>
+    </section>
+
     <section class="col-md-6" aria-labelledby="table-header">
       <h2 id="table-header" class="visually-hidden">Book List</h2>
       <app-book-table />

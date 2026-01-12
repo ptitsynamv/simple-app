@@ -1,0 +1,67 @@
+<div
+  class="modal fade show"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="add-book-modal"
+  aria-modal="true"
+  role="dialog"
+  style="display: block"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="add-book-modal">Add New Book</h1>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="handleCancel()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="bookForm" (ngSubmit)="handleSave()" novalidate>
+          <div class="mb-4">
+            <label for="bookTitle" class="form-label fw-bold">
+              Book Title <span class="text-danger" aria-hidden="true">*</span>
+            </label>
+            <input
+              id="bookTitle"
+              type="text"
+              formControlName="title"
+              class="form-control form-control-lg"
+              [class.is-invalid]="bookForm.get('title')?.touched && bookForm.get('title')?.invalid"
+              placeholder="Enter book title"
+              aria-required="true"
+              [attr.aria-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+              aria-describedby="titleError"
+            />
+
+            <div id="titleError" class="invalid-feedback" role="alert">
+              @if (bookForm.get('title')?.errors?.['required']) { Title is required. } @if
+              (bookForm.get('title')?.errors?.['maxlength']) { Title cannot exceed 50 characters.}
+            </div>
+          </div>
+
+          <div class="mb-3 form-check">
+            <input type="checkbox" id="isRead" formControlName="isRead" class="form-check-input" />
+            <label class="form-check-label" for="isRead">Mark as Read</label>
+          </div>
+
+          <div class="mb-4 form-check">
+            <input
+              type="checkbox"
+              id="isFavorite"
+              formControlName="isFavorite"
+              class="form-check-input"
+            />
+            <label class="form-check-label" for="isFavorite">Mark as Favorite</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary px-5 btn-lg" [disabled]="bookForm.pending">
+            Save Book
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

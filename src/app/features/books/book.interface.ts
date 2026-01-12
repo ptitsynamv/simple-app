@@ -6,3 +6,5 @@ export interface Book {
 }
 
 export type BookOrder = 'asc' | 'desc';
+
+export type CreateBook = Omit<Book, 'id'>;

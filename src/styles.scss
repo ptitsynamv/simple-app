@@ -1,27 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
-
-/* Importing Bootstrap SCSS file. */
 @use 'bootstrap/scss/bootstrap';
 
-*:focus {
-  outline: none;
-}
-
-:focus-visible {
-  outline: 3px solid #0d6efd; /* Bootstrap Primary Blue */
-  outline-offset: 3px;
-  box-shadow: 0 0 0 6px rgba(13, 110, 253, 0.25);
-  border-radius: 4px;
-}
-
-.bg-dark :focus-visible,
-.navbar-dark :focus-visible {
-  outline-color: #ffdd00; /* High-contrast Yellow for dark mode */
-  box-shadow: 0 0 0 6px rgba(255, 221, 0, 0.3);
-}
-
-.btn,
-.nav-link,
-a {
-  transition: outline-offset 0.15s ease-in-out;
+a:focus,
+button:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus,
+.nav-link:focus-visible,
+.btn:focus-visible,
+.form-control:focus-visible {
+  outline: 4px solid lime;
 }

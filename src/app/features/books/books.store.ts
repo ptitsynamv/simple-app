@@ -26,7 +26,7 @@ import {
 } from '@ngrx/signals/events';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
-import { Book, BookOrder } from './book.interface';
+import { Book, BookOrder, CreateBook } from './book.interface';
 import { BookService } from './services/book';
 
 type BookState = {
@@ -50,6 +50,7 @@ export const bookSearchEvents = eventGroup({
 });
 
 export const BookStore = signalStore(
+  { providedIn: 'root' },
   withState(initialState),
   withRequestStatus(),
   withReducer(
@@ -127,6 +128,11 @@ export const BookStore = signalStore(
     updateBookInfo(id: string, indo: Partial<Record<'isRead' | 'isFavorite', boolean>>): void {
       patchState(store, (state) => ({
         books: state.books.map((b) => (b.id === id ? { ...b, ...indo } : b)),
+      }));
+    },
+    addBook(book: CreateBook): void {
+      patchState(store, (state) => ({
+        books: [...state.books, { id: (state.books.length + 1).toString(), ...book }],
       }));
     },
   }))

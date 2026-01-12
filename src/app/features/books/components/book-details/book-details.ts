@@ -33,8 +33,9 @@ export class BookDetails {
 
   public onSaveTitle(): void {
     this.store.saveTitle();
-    this.store.selectBook(null);
     this._announcer.announce('Book title saved', 'polite');
+
+    this.store.selectBook(null);
     this._focusManagement.returnFocus();
   }
 }
