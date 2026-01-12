@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { User } from '@shared/interfaces/user.interfaces';
 import { delay, Observable, of } from 'rxjs';
-import { User } from '../../shared/interfaces/user.interfaces';
 
 @Injectable({
   providedIn: 'root',

@@ -1,8 +1,8 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { bookSearchEvents, BookStore } from '../../books.store';
-import { Dispatcher } from '@ngrx/signals/events';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { FocusManagementService } from '../../../../core/services/focus-management-service';
+import { Component, inject, OnInit } from '@angular/core';
+import { FocusManagementService } from '@core/services/focus-management-service';
+import { bookSearchEvents, BookStore } from '@features/books/books.store';
+import { Dispatcher } from '@ngrx/signals/events';
 
 @Component({
   selector: 'app-book-table',

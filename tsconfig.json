@@ -16,7 +16,13 @@
     "module": "preserve",
     "noImplicitAny": true, // Ensures all paths in a function return something (or nothing)
     "useUnknownInCatchVariables": true,
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "baseUrl": "./",
+    "paths": {
+      "@core/*": ["src/app/core/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@features/*": ["src/app/features/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

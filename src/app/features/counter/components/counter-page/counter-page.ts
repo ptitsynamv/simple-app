@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CounterStore } from '../../counter.store';
+import { CounterStore } from '@features/counter/counter.store';
 import { getState } from '@ngrx/signals';
 
 @Component({

@@ -1,12 +1,12 @@
-import { inject, Injectable } from '@angular/core';
-import { AppStore } from '../stores/app.store';
 import { InteractivityChecker } from '@angular/cdk/a11y';
+import { inject, Injectable } from '@angular/core';
+import { CoreStore } from '@core/stores/core.store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FocusManagementService {
-  private store = inject(AppStore);
+  private store = inject(CoreStore);
   private checker = inject(InteractivityChecker);
 
   public saveCurrentFocus(): void {

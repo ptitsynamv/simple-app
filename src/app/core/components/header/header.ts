@@ -1,7 +1,7 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AppStore } from '../../stores/app.store';
+import { CoreStore } from '@core/stores/core.store';
 
 @Component({
   selector: 'app-header',
@@ -10,10 +10,12 @@ import { AppStore } from '../../stores/app.store';
   styleUrl: './header.scss',
 })
 export class Header {
-  public readonly store = inject(AppStore);
+  public readonly store = inject(CoreStore);
   private readonly _announcer = inject(LiveAnnouncer);
 
   constructor() {
+    this.store.restoreLogin();
+
     effect((): void => {
       const user = this.store.userInfo();
       if (user) {

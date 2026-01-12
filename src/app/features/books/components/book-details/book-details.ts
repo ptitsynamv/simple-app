@@ -1,13 +1,12 @@
-import { Component, effect, ElementRef, inject, viewChild } from '@angular/core';
-import { BookStore } from '../../books.store';
-import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { FocusManagementService } from '../../../../core/services/focus-management-service';
+import { NgClass } from '@angular/common';
+import { Component, effect, ElementRef, inject, viewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { FocusManagementService } from '@core/services/focus-management-service';
+import { BookStore } from '@features/books/books.store';
 
 @Component({
   selector: 'app-book-details',
-  standalone: true,
   imports: [FormsModule, NgClass],
   templateUrl: './book-details.html',
   styleUrl: './book-details.scss',

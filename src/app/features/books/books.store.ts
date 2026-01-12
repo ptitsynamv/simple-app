@@ -1,5 +1,11 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { computed, inject } from '@angular/core';
+import {
+  setError,
+  setFulfilled,
+  setPending,
+  withRequestStatus,
+} from '@core/stores/request-status.store';
 import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
@@ -20,12 +26,6 @@ import {
 } from '@ngrx/signals/events';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { debounceTime, distinctUntilChanged, pipe, switchMap, tap } from 'rxjs';
-import {
-  setError,
-  setFulfilled,
-  setPending,
-  withRequestStatus,
-} from '../../core/stores/request-status.store';
 import { Book, BookOrder } from './book.interface';
 import { BookService } from './services/book';
 

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { BookStore } from '../../books.store';
-import { BookTable } from '../book-table/book-table';
+import { BookStore } from '@features/books/books.store';
 import { BookDetails } from '../book-details/book-details';
+import { BookTable } from '../book-table/book-table';
 
 @Component({
   selector: 'app-books-shell',
