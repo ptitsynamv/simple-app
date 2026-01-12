@@ -1,20 +1,19 @@
 import { inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withProps, withState } from '@ngrx/signals';
-import { CoreService } from '../services/core-service';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, switchMap, tap } from 'rxjs';
-import { tapResponse } from '@ngrx/operators';
-import { setError, setFulfilled, setPending, withRequestStatus } from './request-status.store';
+import { User } from '../../shared/interfaces/user.interfaces';
+import { CoreService } from '../services/core-service';
 import { withLastFocusedElement } from './a11y.store';
+import { setError, setFulfilled, setPending, withRequestStatus } from './request-status.store';
 
 type AppState = {
-  user: { name: string } | null;
-  isAuthenticated: boolean;
+  userInfo: User | null;
 };
 
 const initialState: AppState = {
-  user: null,
-  isAuthenticated: false,
+  userInfo: null,
 };
 
 export const AppStore = signalStore(
@@ -30,9 +29,9 @@ export const AppStore = signalStore(
       pipe(
         tap(() => patchState(store, setPending())),
         switchMap(() => {
-          return coreService.getUserName().pipe(
+          return coreService.getUserInfo().pipe(
             tapResponse({
-              next: (name: string) => patchState(store, { user: { name }, isAuthenticated: true }),
+              next: (data) => patchState(store, { userInfo: data }),
               error: (error: Error) => patchState(store, setError(error.message)),
               finalize: () => patchState(store, setFulfilled()),
             })
@@ -40,5 +39,8 @@ export const AppStore = signalStore(
         })
       )
     ),
+    logout: () => {
+      patchState(store, { userInfo: null });
+    },
   }))
 );

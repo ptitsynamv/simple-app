@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { bookSearchEvents, BookStore } from '../../books.store';
 import { Dispatcher } from '@ngrx/signals/events';
-import { FocusKeyManager, LiveAnnouncer } from '@angular/cdk/a11y';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { FocusManagementService } from '../../../../core/services/focus-management-service';
 
 @Component({

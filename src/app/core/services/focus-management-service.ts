@@ -9,14 +9,15 @@ export class FocusManagementService {
   private store = inject(AppStore);
   private checker = inject(InteractivityChecker);
 
-  public saveCurrentFocus() {
+  public saveCurrentFocus(): void {
     const activeEl = document.activeElement as HTMLElement;
+
     if (activeEl && this.checker.isFocusable(activeEl)) {
       this.store.captureFocus(activeEl);
     }
   }
 
-  public returnFocus() {
+  public returnFocus(): void {
     const el = this.store.lastFocusedElement();
     if (el && this.checker.isFocusable(el)) {
       el.focus();
