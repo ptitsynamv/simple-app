@@ -28,6 +28,7 @@ export class BooksShell {
       restoreFocus: true,
       panelClass: 'modal',
       ariaLabelledBy: 'add-book-modal',
+      autoFocus: 'first-tabbable',
     });
 
     dialogRef.closed.subscribe((): void => {

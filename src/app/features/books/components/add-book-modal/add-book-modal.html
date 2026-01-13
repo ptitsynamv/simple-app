@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-dialog-centered" cdkTrapFocus cdkTrapFocusAutoCapture="true">
+<div class="modal-dialog modal-dialog-centered">
   <div class="modal-content">
     <div class="modal-header">
       <h1 class="modal-title fs-5" id="add-book-modal">Add New Book</h1>
@@ -16,10 +16,11 @@
             formControlName="title"
             class="form-control form-control-lg"
             [class.is-invalid]="bookForm.get('title')?.touched && bookForm.get('title')?.invalid"
-            placeholder="Enter book title"
             aria-required="true"
             [attr.aria-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
-            aria-describedby="titleError"
+            [attr.aria-describedby]="
+              bookForm.get('title')?.touched && bookForm.get('title')?.invalid ? 'titleError' : null
+            "
             cdkFocusInitial
           />
 
