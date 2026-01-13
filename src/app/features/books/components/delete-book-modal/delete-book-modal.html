@@ -1,0 +1,39 @@
+@if (isModalOpen) {
+<div
+  class="modal fade show d-block"
+  id="confirm-book-deletion"
+  tabindex="-1"
+  aria-labelledby="delete-book-modal"
+  aria-describedby="delete-desc"
+  role="alertdialog"
+  aria-modal="true"
+  cdkTrapFocus
+  cdkTrapFocusAutoCapture="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="delete-book-modal">Confirm Book Deletion</h1>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="handleCancel()"
+        ></button>
+      </div>
+      <div class="modal-body" id="delete-desc">
+        <p>
+          Are you sure you want to delete <strong>{{ book?.title }}</strong
+          >? This action cannot be undone.
+        </p>
+      </div>
+      <div class="modal-footer border-0 pt-0 gap-2">
+        <button type="button" class="btn btn-light px-4" (click)="handleCancel()">Cancel</button>
+        <button type="button" class="btn btn-danger px-4" (click)="confirmDelete()" cdkFocusInitial>
+          Delete Book
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}

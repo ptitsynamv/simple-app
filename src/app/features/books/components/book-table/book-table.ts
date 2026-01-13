@@ -1,21 +1,24 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { FocusManagementService } from '@core/services/focus-management-service';
+import { Book } from '@features/books/book.interface';
 import { bookSearchEvents, BookStore } from '@features/books/books.store';
 import { Dispatcher } from '@ngrx/signals/events';
+import { DeleteBookModal } from '../delete-book-modal/delete-book-modal';
 
 @Component({
   selector: 'app-book-table',
   templateUrl: './book-table.html',
   styleUrl: './book-table.scss',
+  imports: [DeleteBookModal],
 })
-export class BookTable implements OnInit {
-  readonly store = inject(BookStore);
+export class BookTable {
+  public readonly store = inject(BookStore);
+  public changeOrderButton = viewChild<ElementRef<HTMLButtonElement>>('changeOrderButton');
+
   private readonly _dispatcher = inject(Dispatcher);
   private readonly _announcer = inject(LiveAnnouncer);
-  private readonly _focusManager = inject(FocusManagementService);
-
-  public ngOnInit(): void {}
+  private readonly _focusManagement = inject(FocusManagementService);
 
   public onChangeOrder() {
     const newOrder = this.store.filter.order() === 'asc' ? 'desc' : 'asc';
@@ -29,6 +32,11 @@ export class BookTable implements OnInit {
 
   public selectBook(bookId: string): void {
     this.store.selectBook(bookId);
-    this._focusManager.saveCurrentFocus();
+    this._focusManagement.saveCurrentFocus();
+  }
+
+  public deleteBook(book: Book): void {
+    this._focusManagement.saveCurrentFocus(this.changeOrderButton()?.nativeElement as HTMLElement);
+    this.store.openModal<Book>(book);
   }
 }

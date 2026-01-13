@@ -29,13 +29,12 @@ export class AddBookModal {
       this.store.addBook(bookData);
 
       this.announcer.announce(`Book ${bookData.title} added successfully`, 'polite');
-      this.bookForm.reset({ isRead: false, isFavorite: false });
     } else {
       const firstInvalid = document.querySelector('.is-invalid') as HTMLElement;
       firstInvalid?.focus();
       this.announcer.announce('Form contains errors. Please check the title field.', 'assertive');
-      this.handleCancel();
     }
+    this.handleCancel();
   }
 
   public handleCancel(): void {

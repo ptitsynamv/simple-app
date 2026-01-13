@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, viewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Footer } from '@core/components/footer/footer';
 import { Header } from '@core/components/header/header';
@@ -10,12 +10,12 @@ import { Header } from '@core/components/header/header';
   styleUrl: './app.scss',
 })
 export class App {
-  @ViewChild('mainContent', { static: false }) mainContent!: ElementRef<HTMLElement>;
+  public mainContent = viewChild<ElementRef<HTMLButtonElement>>('mainContent');
 
-  skipToContent(event: Event) {
+  public skipToContent(event: Event): void {
     event.preventDefault();
     if (this.mainContent) {
-      this.mainContent.nativeElement.focus();
+      this.mainContent()?.nativeElement.focus();
     }
   }
 }

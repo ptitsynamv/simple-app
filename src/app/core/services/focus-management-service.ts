@@ -9,19 +9,39 @@ export class FocusManagementService {
   private store = inject(CoreStore);
   private checker = inject(InteractivityChecker);
 
-  public saveCurrentFocus(): void {
+  public saveCurrentFocus(defaultFocusElement?: HTMLElement): void {
     const activeEl = document.activeElement as HTMLElement;
 
     if (activeEl && this.checker.isFocusable(activeEl)) {
-      this.store.captureFocus(activeEl);
+      this.store.captureFocus(activeEl, defaultFocusElement);
     }
   }
 
   public returnFocus(): void {
-    const el = this.store.lastFocusedElement();
+    const el = this.store.lastFocus().lastFocusedElement;
+
     if (el && this.checker.isFocusable(el)) {
       el.focus();
     }
+
+    this.clearFocus();
+  }
+
+  public returnDefaultFocus(): void {
+    const el = this.store.lastFocus().defaultFocusedElement;
+
+    if (el && this.checker.isFocusable(el)) {
+      el.focus();
+    }
+
+    this.clearFocus();
+  }
+
+  public clearFocus(): void {
     this.store.clearFocus();
+  }
+
+  public hasFocus(): boolean {
+    return this.store.lastFocus().lastFocusedElement !== null;
   }
 }

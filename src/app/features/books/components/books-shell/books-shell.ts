@@ -25,8 +25,9 @@ export class BooksShell {
     this._focusManagement.saveCurrentFocus();
 
     const dialogRef = this._dialog.open(AddBookModal, {
-      width: '500px',
-      autoFocus: 'first-tabbable',
+      restoreFocus: true,
+      panelClass: 'modal',
+      ariaLabelledBy: 'add-book-modal',
     });
 
     dialogRef.closed.subscribe((): void => {

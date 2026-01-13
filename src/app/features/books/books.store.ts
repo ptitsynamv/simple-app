@@ -1,5 +1,6 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { computed, inject } from '@angular/core';
+import { withModal } from '@core/stores/modal.store';
 import {
   setError,
   setFulfilled,
@@ -53,6 +54,7 @@ export const BookStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
   withRequestStatus(),
+  withModal(),
   withReducer(
     on(bookSearchEvents.orderChanged, ({ payload }, state) => ({
       filter: {
@@ -133,6 +135,11 @@ export const BookStore = signalStore(
     addBook(book: CreateBook): void {
       patchState(store, (state) => ({
         books: [...state.books, { id: (state.books.length + 1).toString(), ...book }],
+      }));
+    },
+    deleteBook(id: string): void {
+      patchState(store, (state) => ({
+        books: state.books.filter((b) => b.id !== id),
       }));
     },
   }))

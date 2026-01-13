@@ -44,6 +44,7 @@
               [attr.aria-sort]="store.filter.order() === 'asc' ? 'ascending' : 'descending'"
             >
               <button
+                #changeOrderButton
                 type="button"
                 class="btn btn-link p-0 text-dark fw-bold text-decoration-none d-flex align-items-center"
                 (click)="onChangeOrder()"
@@ -73,6 +74,13 @@
               >
                 Edit
               </button>
+              <button
+                class="btn btn-sm btn-outline-danger ms-1"
+                (click)="deleteBook(book)"
+                [attr.aria-label]="'Delete book: ' + book.title"
+              >
+                Delete
+              </button>
             </td>
           </tr>
           } @empty {
@@ -87,3 +95,5 @@
     </div>
   </div>
 </div>
+
+<app-delete-book-modal></app-delete-book-modal>
