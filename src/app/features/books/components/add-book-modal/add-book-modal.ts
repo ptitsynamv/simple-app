@@ -2,12 +2,13 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DialogRef } from '@angular/cdk/dialog';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FocusInvalid } from '@core/directives/focus-invalid';
 import { BookStore } from '@features/books/books.store';
 
 @Component({
   selector: 'app-add-book-modal',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FocusInvalid],
   templateUrl: './add-book-modal.html',
   styleUrl: './add-book-modal.scss',
 })
@@ -29,12 +30,8 @@ export class AddBookModal {
       this.store.addBook(bookData);
 
       this.announcer.announce(`Book ${bookData.title} added successfully`, 'polite');
-    } else {
-      const firstInvalid = document.querySelector('.is-invalid') as HTMLElement;
-      firstInvalid?.focus();
-      this.announcer.announce('Form contains errors. Please check the title field.', 'assertive');
+      this.handleCancel();
     }
-    this.handleCancel();
   }
 
   public handleCancel(): void {

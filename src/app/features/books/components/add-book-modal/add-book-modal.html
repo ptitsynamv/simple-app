@@ -5,7 +5,7 @@
       <button type="button" class="btn-close" aria-label="Close" (click)="handleCancel()"></button>
     </div>
     <div class="modal-body">
-      <form [formGroup]="bookForm" (ngSubmit)="handleSave()" novalidate>
+      <form [formGroup]="bookForm" (ngSubmit)="handleSave()" novalidate appFocusInvalid>
         <div class="mb-4">
           <label for="bookTitle" class="form-label fw-bold">
             Book Title <span class="text-danger" aria-hidden="true">*</span>
@@ -45,9 +45,7 @@
           <label class="form-check-label" for="isFavorite">Mark as Favorite</label>
         </div>
 
-        <button type="submit" class="btn btn-primary px-5 btn-lg" [disabled]="bookForm.invalid">
-          Save Book
-        </button>
+        <button type="submit" class="btn btn-primary px-5 btn-lg">Save Book</button>
       </form>
     </div>
   </div>

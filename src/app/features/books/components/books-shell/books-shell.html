@@ -1,4 +1,4 @@
-<main class="container-fluid mt-4">
+<div class="container-fluid mt-4">
   <div class="row" cdkMonitorSubtreeFocus>
     @if(store.isPending()) {
     <div
@@ -16,13 +16,11 @@
       <button type="button" class="btn btn-primary" (click)="openAddModal()">Add New Book</button>
     </section>
 
-    <section class="col-md-6" aria-labelledby="table-header">
-      <h2 id="table-header" class="visually-hidden">Book List</h2>
+    <section class="col-md-6">
       <app-book-table />
     </section>
 
-    <section class="col-md-6" aria-labelledby="details-header">
-      <h2 id="details-header" class="visually-hidden">Book Selection Details</h2>
+    <section class="col-md-6">
       <div aria-live="polite">
         <app-book-details />
       </div>
@@ -34,4 +32,4 @@
     </div>
     }
   </div>
-</main>
+</div>
