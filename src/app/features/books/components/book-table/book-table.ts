@@ -31,8 +31,8 @@ export class BookTable {
   }
 
   public selectBook(bookId: string): void {
-    this.store.selectBook(bookId);
     this._focusManagement.saveCurrentFocus();
+    this.store.selectBook(bookId);
   }
 
   public deleteBook(book: Book): void {

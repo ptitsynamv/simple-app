@@ -1,16 +1,12 @@
 <div class="container mt-5">
   @if (store.selectedBook(); as book) {
-  <article
-    class="card shadow-lg border-0 overflow-hidden"
-    aria-labelledby="book-detail-title"
-    role="region"
-  >
+  <section class="card shadow-lg border-0 overflow-hidden">
     <div class="row g-0">
       <div class="col">
         <div class="card-body p-5">
-          <nav aria-label="breadcrumb">
+          <div aria-label="breadcrumb">
             <small class="text-uppercase text-muted fw-bold">Book ID: {{ book.id }}</small>
-          </nav>
+          </div>
 
           <div class="mb-4">
             <label for="editTitleInput" class="form-label text-muted small fw-bold text-uppercase">
@@ -26,20 +22,20 @@
                 (ngModelChange)="store.updateEditTitle($event)"
                 placeholder="Enter new title..."
                 aria-describedby="unsavedChangesStatus"
+                autocomplete="off"
               />
               <button
                 class="btn btn-primary px-4"
                 type="button"
+                [attr.aria-label]="isDirty() ? 'Save changes to title' : 'No changes to save'"
                 (click)="onSaveTitle()"
-                [disabled]="store.editTitle() === book.title"
-                [attr.aria-label]="'Save changes to ' + book.title"
               >
                 Save
               </button>
             </div>
 
             <div id="unsavedChangesStatus" aria-live="polite" class="mt-1 min-height-20">
-              @if (store.editTitle() !== book.title) {
+              @if (isDirty()) {
               <span class="form-text text-warning fw-bold">
                 <i class="bi bi-info-circle" aria-hidden="true"></i> You have unsaved changes
               </span>
@@ -88,7 +84,7 @@
         </div>
       </div>
     </div>
-  </article>
+  </section>
   } @else {
   <div class="shadow-sm border-0 py-4 text-center" role="status">
     <h2 class="h4 mb-0">Select a Book from the Table</h2>

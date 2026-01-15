@@ -1,0 +1,1 @@
+Always use Angular 21 syntax. Prefer Standalone Components over NgModules. Use Signals for state management instead of RxJS Subjects where possible. Ensure all HTML output follows WCAG 2.1 Level AA accessibility standards (ARIA labels, roles, and focus management).
