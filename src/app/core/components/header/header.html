@@ -1,16 +1,16 @@
 <header class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
   <div class="container">
     <a
-      class="navbar-brand fw-bold d-flex align-items-center"
       routerLink="/"
       aria-label="Simple App Home"
+      class="navbar-brand fw-bold d-flex align-items-center"
     >
-      <span class="text-primary me-1">❤</span> Simple App
+      <span class="text-primary me-1" aria-hidden="true">❤</span> Simple App
     </a>
 
     <button
-      class="navbar-toggler"
       type="button"
+      class="navbar-toggler"
       data-bs-toggle="collapse"
       data-bs-target="#appNavbar"
       aria-controls="appNavbar"
@@ -21,62 +21,76 @@
     </button>
 
     <nav id="appNavbar" class="collapse navbar-collapse" aria-label="Main Navigation">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center" role="menubar" appMenubar>
+        <li class="nav-item" role="none">
           <a
-            class="nav-link px-3"
             routerLink="/books-shell"
             routerLinkActive="active"
-            #rlaBooks="routerLinkActive"
-            [attr.aria-current]="rlaBooks.isActive ? 'page' : null"
+            ariaCurrentWhenActive="page"
+            role="menuitem"
+            class="nav-link px-3"
           >
             Books
           </a>
         </li>
-        <li class="nav-item">
+
+        <li class="nav-item" role="none">
           <a
-            class="nav-link px-3"
             routerLink="/counter"
             routerLinkActive="active"
-            #rlaBooks="routerLinkActive"
-            [attr.aria-current]="rlaBooks.isActive ? 'page' : null"
+            ariaCurrentWhenActive="page"
+            role="menuitem"
+            class="nav-link px-3"
           >
             Counter
           </a>
         </li>
-      </ul>
 
-      <div class="d-flex align-items-center">
         @if (store.isPending()) {
-        <div class="spinner-border spinner-border-sm me-2" role="status">
-          <span class="visually-hidden">Loading user data...</span>
-        </div>
+        <li class="nav-item dropdown" role="none">
+          <div class="spinner-border spinner-border-sm me-2" role="status">
+            <span class="visually-hidden">Loading user data...</span>
+          </div>
+        </li>
         } @else if (store.error()) {
-        <span class="text-warning small" role="alert">
-          <i class="bi bi-exclamation-triangle"></i> Login Error
-        </span>
+        <li class="nav-item dropdown" role="none">
+          <span class="text-warning small" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> Login Error
+          </span>
+        </li>
         } @else if (store.userInfo(); as userInfo){
-        <div class="dropdown">
+        <li class="nav-item dropdown" role="none">
           <button
-            class="btn btn-link dropdown-toggle d-flex align-items-center text-dark text-decoration-none p-0"
             type="button"
-            id="userMenu"
-            data-bs-toggle="dropdown"
+            id="  "
+            role="menuitem"
+            aria-haspopup="true"
             aria-expanded="false"
-            [attr.aria-label]="'Settings for ' + userInfo.name"
+            aria-label="User settings"
+            data-bs-toggle="dropdown"
+            class="btn btn-link dropdown-toggle d-flex align-items-center text-dark text-decoration-none p-0"
           >
-            <img class="user-avatar" aria-hidden="true" [src]="userInfo.picture" />
+            <img aria-hidden="true" class="user-avatar" [src]="userInfo.picture" />
             <span class="fw-medium small d-none d-md-inline ms-1">{{ userInfo.name }}</span>
           </button>
 
-          <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userMenu">
-            <li>
-              <button class="dropdown-item py-2" type="button" (click)="handleLogout()">
-                <i class="bi bi-box-arrow-right me-2" aria-hidden="true"></i> Log Out
+          <ul
+            class="dropdown-menu dropdown-menu-end shadow-sm"
+            role="menu"
+            aria-labelledby="userMenu"
+          >
+            <li role="none">
+              <button
+                type="button"
+                role="menuitem"
+                class="dropdown-item py-2"
+                (click)="handleLogout()"
+              >
+                <i aria-hidden="true" class="bi bi-box-arrow-right me-2"></i> Log Out
               </button>
             </li>
           </ul>
-        </div>
+        </li>
         }@else {
         <button
           type="button"
@@ -88,7 +102,7 @@
           Login
         </button>
         }
-      </div>
+      </ul>
     </nav>
   </div>
 </header>

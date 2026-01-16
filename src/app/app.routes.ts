@@ -2,7 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/books-shell', pathMatch: 'full' },
-
+  {
+    path: 'books-shell/:id',
+    loadComponent: () =>
+      import('./features/books/components/read-book/read-book').then((m) => m.ReadBook),
+  },
   {
     path: 'books-shell',
     loadComponent: () =>
@@ -14,10 +18,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/counter/components/counter-page/counter-page').then((m) => m.CounterPage),
     title: 'SignalStore Counter',
-  },
-  {
-    path: 'read-book/:id',
-    loadComponent: () =>
-      import('./features/books/components/read-book/read-book').then((m) => m.ReadBook),
   },
 ];

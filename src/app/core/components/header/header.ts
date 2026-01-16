@@ -1,11 +1,13 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MenubarDirective } from '@core/directives/menubar';
 import { CoreStore } from '@core/stores/core.store';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  standalone: true,
+  imports: [RouterLink, RouterLinkActive, MenubarDirective],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })

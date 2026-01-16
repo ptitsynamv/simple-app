@@ -1,23 +1,33 @@
-@if (store.isPending()) {
-<div class="loader-wrapper d-flex align-items-center gap-2" role="status" aria-live="polite">
-  <div class="spinner-border text-primary" aria-hidden="true"></div>
-  <span>Fetching pages...</span>
-</div>
-} @if (store.isFulfilled() && book) {
-<div class="read-container p-4 border rounded shadow-sm">
-  <h2 id="read-heading">Current Reading: {{ book.title }}</h2>
-
-  <div class="action-area mt-3">
-    <article class="mt-4 p-3 bg-light rounded" tabindex="0">
-      <h3>Chapter 1: Lorem ipsum dolor</h3>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, exercitationem ullam
-        officiis explicabo autem dignissimos nesciunt dolorem officia sunt quis error earum optio,
-        repudiandae sequi voluptatibus suscipit corrupti quasi? Quo ab est autem dolore, modi sit id
-        quam praesentium officia quia voluptate adipisci libero dignissimos inventore nobis eum
-        nulla odit.
-      </p>
-    </article>
+<div class="p-4">
+  @if (store.isPending()) {
+  <div class="loader-wrapper d-flex align-items-center gap-2" role="status" aria-live="polite">
+    <div class="spinner-border text-primary" aria-hidden="true"></div>
+    <span>Fetching pages...</span>
   </div>
+  } @if (store.isFulfilled() && book) {
+
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/books-shell">Books Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Reading: {{ book.title }}</li>
+    </ol>
+  </nav>
+
+  <div class="read-container border rounded shadow-sm p-4">
+    <h1 id="read-heading">Current Reading: {{ book.title }}</h1>
+
+    <div class="action-area mt-3">
+      <article class="mt-4 p-3 bg-light rounded" tabindex="0">
+        <h2>Chapter 1: Lorem ipsum dolor</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat, exercitationem ullam
+          officiis explicabo autem dignissimos nesciunt dolorem officia sunt quis error earum optio,
+          repudiandae sequi voluptatibus suscipit corrupti quasi? Quo ab est autem dolore, modi sit
+          id quam praesentium officia quia voluptate adipisci libero dignissimos inventore nobis eum
+          nulla odit.
+        </p>
+      </article>
+    </div>
+  </div>
+  }
 </div>
-}

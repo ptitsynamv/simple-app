@@ -58,11 +58,7 @@
               [ngClass]="{ 'btn-outline-primary': book.isRead, 'btn-light': !book.isRead }"
               (click)="onUpdateBook(book.id, { isRead: !book.isRead })"
               [attr.aria-pressed]="book.isRead"
-              [attr.aria-label]="
-                book.isRead
-                  ? 'Mark ' + book.title + ' as unread'
-                  : 'Mark ' + book.title + ' as read'
-              "
+              [attr.aria-label]="'Mark ' + book.title + ' as read'"
             >
               {{ book.isRead ? 'Mark as Unread' : 'Mark as Read' }}
             </button>
@@ -72,11 +68,7 @@
               [ngClass]="{ 'btn-outline-primary': book.isFavorite, 'btn-light': !book.isFavorite }"
               (click)="onUpdateBook(book.id, { isFavorite: !book.isFavorite })"
               [attr.aria-pressed]="book.isFavorite"
-              [attr.aria-label]="
-                book.isFavorite
-                  ? 'Remove ' + book.title + ' from favorites'
-                  : 'Add ' + book.title + ' to favorites'
-              "
+              [attr.aria-label]="'Add ' + book.title + ' to favorites'"
             >
               {{ book.isFavorite ? 'Remove from favorites' : 'Add to Favorites' }}
             </button>
