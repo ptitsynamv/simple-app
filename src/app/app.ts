@@ -12,6 +12,9 @@ import { Header } from '@core/components/header/header';
 export class App {
   public mainContent = viewChild<ElementRef<HTMLButtonElement>>('mainContent');
 
+  /* 
+    https://www.w3.org/WAI/WCAG22/Techniques/general/G1
+  */
   public skipToContent(event: Event): void {
     event.preventDefault();
     if (this.mainContent) {

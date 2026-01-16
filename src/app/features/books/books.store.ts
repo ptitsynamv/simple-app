@@ -1,4 +1,3 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { computed, inject } from '@angular/core';
 import { withModal } from '@core/stores/modal.store';
 import {
@@ -34,12 +33,14 @@ type BookState = {
   books: Book[];
   filter: { query: string; order: BookOrder };
   selectedId: string | null;
+  readBook: Book | null;
 };
 
 const initialState: BookState = {
   books: [],
   filter: { query: '', order: 'asc' },
   selectedId: null,
+  readBook: null,
 };
 
 export const bookSearchEvents = eventGroup({
@@ -65,7 +66,6 @@ export const BookStore = signalStore(
   ),
   withProps(() => ({
     _booksService: inject(BookService),
-    _announcer: inject(LiveAnnouncer),
   })),
   withComputed(({ books, filter, selectedId }) => ({
     visibleBooks: computed(() => {
@@ -93,18 +93,17 @@ export const BookStore = signalStore(
       )
     ),
   ]),
-  withMethods(({ _booksService, _announcer, ...store }) => ({
+  withMethods(({ _booksService, ...store }) => ({
     loadBooks: rxMethod<void>(
       pipe(
         debounceTime(300),
         distinctUntilChanged(),
         tap(() => patchState(store, setPending())),
         switchMap(() => {
-          return _booksService.getByQuery().pipe(
+          return _booksService.getAllBooks().pipe(
             tapResponse({
               next: (books: Book[]) => {
                 patchState(store, { books });
-                _announcer.announce(`Loaded ${books.length} books`);
               },
               error: (error: Error) => patchState(store, setError(error.message)),
               finalize: () => patchState(store, setFulfilled),
@@ -142,5 +141,23 @@ export const BookStore = signalStore(
         books: state.books.filter((b) => b.id !== id),
       }));
     },
+    getBookById: rxMethod<string>(
+      pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => patchState(store, setPending())),
+        switchMap((id) => {
+          return _booksService.getById(id).pipe(
+            tapResponse({
+              next: (book) => {
+                patchState(store, { readBook: book });
+              },
+              error: (error: Error) => patchState(store, setError(error.message)),
+              finalize: () => patchState(store, setFulfilled),
+            })
+          );
+        })
+      )
+    ),
   }))
 );

@@ -3,28 +3,73 @@
     <div class="col-md-6">
       <div class="card shadow-sm border-0">
         <div class="card-body text-center p-5">
-          <h2 class="card-title mb-4 text-secondary">SignalStore Counter</h2>
+          <h1 class="card-title mb-4 text-secondary">SignalStore Counter</h1>
 
-          <div class="display-1 fw-bold text-primary mb-2">
+          <div class="display-1 fw-bold text-primary mb-2" aria-live="polite" aria-atomic="true">
             {{ store.count() }}
           </div>
           <p class="text-muted mb-4">
-            Double value: <span class="badge bg-info text-dark">{{ store.doubleCount() }}</span>
+            Double value:
+            <span class="badge bg-info text-dark">{{ store.doubleCount() }}</span>
           </p>
 
           <div class="d-flex justify-content-center gap-2">
             <button
               (click)="store.decrement()"
               class="btn btn-outline-danger btn-lg px-4"
-              [disabled]="store.count() === 0"
+              [attr.aria-disabled]="store.count() === 0"
+              [attr.aria-label]="
+                store.count() === 0
+                  ? 'Decrement disabled: count is already zero'
+                  : 'Decrement counter'
+              "
+              type="button"
             >
-              <i class="bi bi-dash-lg">-</i>
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-dash-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M2 8a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11A.5.5 0 0 1 2 8"
+                />
+              </svg>
             </button>
 
-            <button (click)="store.reset()" class="btn btn-light btn-lg px-4">Reset</button>
+            <button
+              (click)="store.reset()"
+              class="btn btn-light btn-lg px-4"
+              aria-label="Reset counter to zero"
+              type="button"
+            >
+              Reset
+            </button>
 
-            <button (click)="store.increment()" class="btn btn-primary btn-lg px-4">
-              <i class="bi bi-plus-lg">+</i>
+            <button
+              (click)="store.increment()"
+              class="btn btn-primary btn-lg px-4"
+              aria-label="Increment counter"
+              type="button"
+            >
+              <svg
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-plus-lg"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2"
+                />
+              </svg>
             </button>
           </div>
         </div>
