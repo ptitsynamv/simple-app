@@ -2,17 +2,20 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MenubarDirective } from '@core/directives/menubar';
+import { LanguageService } from '@core/services/language-service';
 import { CoreStore } from '@core/stores/core.store';
+import { TranslocoPipe } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, MenubarDirective],
+  imports: [RouterLink, RouterLinkActive, MenubarDirective, TranslocoPipe],
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
 export class Header {
   public readonly store = inject(CoreStore);
+  public readonly lang = inject(LanguageService);
   private readonly _announcer = inject(LiveAnnouncer);
 
   constructor() {

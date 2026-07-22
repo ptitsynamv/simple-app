@@ -3,19 +3,19 @@
     <div class="row align-items-center">
       <div class="col-md-6 text-center text-md-start">
         <p class="mb-0 text-secondary">
-          &copy; 2026 <span class="fw-bold">Simple App</span>. Built with Angular 21 & Signals.
+          &copy; 2026 <span class="fw-bold">Simple App</span>. {{ 'footer.tagline' | transloco }}
         </p>
-        <nav aria-label="Footer Navigation">
+        <nav [attr.aria-label]="'footer.nav' | transloco">
           <ul class="list-inline mb-0 mt-2">
             <li class="list-inline-item">
-              <a href="#" class="footer-link text-decoration-none text-muted me-3"
-                >Privacy Policy</a
-              >
+              <a href="#" class="footer-link text-decoration-none text-muted me-3">{{
+                'footer.privacy' | transloco
+              }}</a>
             </li>
             <li class="list-inline-item">
-              <a href="#" class="footer-link text-decoration-none text-muted"
-                >Accessibility Statement</a
-              >
+              <a href="#" class="footer-link text-decoration-none text-muted">{{
+                'footer.accessibility' | transloco
+              }}</a>
             </li>
           </ul>
         </nav>
@@ -26,9 +26,9 @@
           type="button"
           class="btn btn-outline-secondary btn-sm"
           (click)="scrollToTop()"
-          aria-label="Back to top of page"
+          [attr.aria-label]="'footer.backToTopAria' | transloco"
         >
-          <i class="bi bi-arrow-up" aria-hidden="true"></i> ↑ Back to Top
+          <i class="bi bi-arrow-up" aria-hidden="true"></i> ↑ {{ 'footer.backToTop' | transloco }}
         </button>
       </div>
     </div>

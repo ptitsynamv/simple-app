@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "books": "Books",
+    "counter": "Counter"
+  },
+  "header": {
+    "homeAria": "Simple App Home",
+    "toggleNav": "Toggle navigation menu",
+    "mainNav": "Main Navigation",
+    "loadingUser": "Loading user data...",
+    "loginError": "Login Error",
+    "userSettings": "User settings"
+  },
+  "auth": {
+    "login": "Login",
+    "loginAria": "Log in to your account",
+    "logout": "Log Out"
+  },
+  "language": {
+    "label": "Language",
+    "en": "English",
+    "it": "Italian"
+  },
+  "footer": {
+    "tagline": "Built with Angular 21 & Signals.",
+    "privacy": "Privacy Policy",
+    "accessibility": "Accessibility Statement",
+    "nav": "Footer Navigation",
+    "backToTop": "Back to Top",
+    "backToTopAria": "Back to top of page"
+  },
+  "a11y": {
+    "skipToContent": "Skip to main content"
+  }
+}

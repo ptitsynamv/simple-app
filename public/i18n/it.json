@@ -1,0 +1,35 @@
+{
+  "nav": {
+    "books": "Libri",
+    "counter": "Contatore"
+  },
+  "header": {
+    "homeAria": "Home di Simple App",
+    "toggleNav": "Attiva/disattiva il menu di navigazione",
+    "mainNav": "Navigazione principale",
+    "loadingUser": "Caricamento dei dati utente...",
+    "loginError": "Errore di accesso",
+    "userSettings": "Impostazioni utente"
+  },
+  "auth": {
+    "login": "Accedi",
+    "loginAria": "Accedi al tuo account",
+    "logout": "Esci"
+  },
+  "language": {
+    "label": "Lingua",
+    "en": "Inglese",
+    "it": "Italiano"
+  },
+  "footer": {
+    "tagline": "Realizzato con Angular 21 e Signals.",
+    "privacy": "Informativa sulla privacy",
+    "accessibility": "Dichiarazione di accessibilità",
+    "nav": "Navigazione a piè di pagina",
+    "backToTop": "Torna su",
+    "backToTopAria": "Torna all'inizio della pagina"
+  },
+  "a11y": {
+    "skipToContent": "Vai al contenuto principale"
+  }
+}
