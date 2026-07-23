@@ -1,33 +1,41 @@
-<div class="container-fluid mt-4">
-  <div class="row" cdkMonitorSubtreeFocus>
+<div class="mx-auto mt-4 w-full max-w-7xl px-4">
+  <div class="flex flex-wrap" cdkMonitorSubtreeFocus>
     @if(store.isPending()) {
     <div
-      class="col-12 d-flex flex-column justify-content-center align-items-center"
-      style="min-height: 200px"
+      class="flex min-h-[200px] w-full flex-col items-center justify-center"
       aria-busy="true"
       aria-live="polite"
     >
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading library catalog and book details...</span>
+      <div
+        class="h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-blue-600"
+        role="status"
+      >
+        <span class="sr-only">Loading library catalog and book details...</span>
       </div>
     </div>
     } @if(store.isFulfilled()) {
-    <section class="col-12 mb-4">
-      <button type="button" class="btn btn-primary" (click)="openAddModal()">Add New Book</button>
+    <section class="mb-4 w-full">
+      <button
+        type="button"
+        class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
+        (click)="openAddModal()"
+      >
+        Add New Book
+      </button>
     </section>
 
-    <section class="col-md-6">
+    <section class="w-full md:w-1/2 md:pr-3">
       <app-book-table />
     </section>
 
-    <section class="col-md-6">
+    <section class="w-full md:w-1/2 md:pl-3">
       <div aria-live="polite">
         <app-book-details />
       </div>
     </section>
     } @if(store.error()) {
-    <div class="col-12 alert alert-danger" role="alert">
-      <h2 class="h5">Unable to load data</h2>
+    <div class="w-full rounded-md border border-red-300 bg-red-50 p-4 text-red-800" role="alert">
+      <h2 class="text-lg font-semibold">Unable to load data</h2>
       <p>Please check your connection and try again.</p>
     </div>
     }

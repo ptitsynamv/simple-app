@@ -1,52 +1,73 @@
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h1 class="modal-title fs-5" id="add-book-modal">Add New Book</h1>
-      <button type="button" class="btn-close" aria-label="Close" (click)="handleCancel()"></button>
-    </div>
-    <div class="modal-body">
-      <form [formGroup]="bookForm" (ngSubmit)="handleSave()" novalidate appFocusInvalid>
-        <div class="mb-4">
-          <label for="bookTitle" class="form-label fw-bold">
-            Book Title <span class="text-danger" aria-hidden="true">*</span>
-          </label>
-          <input
-            id="bookTitle"
-            type="text"
-            formControlName="title"
-            class="form-control form-control-lg"
-            [class.is-invalid]="bookForm.get('title')?.touched && bookForm.get('title')?.invalid"
-            aria-required="true"
-            [attr.aria-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
-            [attr.aria-describedby]="
-              bookForm.get('title')?.touched && bookForm.get('title')?.invalid ? 'titleError' : null
-            "
-            cdkFocusInitial
-          />
+<div class="w-full max-w-lg overflow-hidden rounded-lg bg-white shadow-xl">
+  <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+    <h1 class="text-lg font-semibold" id="add-book-modal">Add New Book</h1>
+    <button
+      type="button"
+      class="text-2xl leading-none text-gray-500 hover:text-gray-800"
+      aria-label="Close"
+      (click)="handleCancel()"
+    >
+      &times;
+    </button>
+  </div>
+  <div class="p-6">
+    <form [formGroup]="bookForm" (ngSubmit)="handleSave()" novalidate appFocusInvalid>
+      <div class="mb-4">
+        <label for="bookTitle" class="mb-1 block font-bold">
+          Book Title <span class="text-red-600" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="bookTitle"
+          type="text"
+          formControlName="title"
+          class="w-full rounded-md border px-3 py-2 text-lg outline-none focus:border-blue-500"
+          [class]="
+            bookForm.get('title')?.touched && bookForm.get('title')?.invalid
+              ? 'border-red-500'
+              : 'border-gray-300'
+          "
+          aria-required="true"
+          [attr.aria-invalid]="bookForm.get('title')?.invalid && bookForm.get('title')?.touched"
+          [attr.aria-describedby]="
+            bookForm.get('title')?.touched && bookForm.get('title')?.invalid ? 'titleError' : null
+          "
+          cdkFocusInitial
+        />
 
-          <div id="titleError" class="invalid-feedback" role="alert">
-            @if (bookForm.get('title')?.errors?.['required']) { Title is required. } @if
-            (bookForm.get('title')?.errors?.['maxlength']) { Title cannot exceed 50 characters.}
-          </div>
+        @if (bookForm.get('title')?.touched && bookForm.get('title')?.invalid) {
+        <div id="titleError" class="mt-1 text-sm text-red-600" role="alert">
+          @if (bookForm.get('title')?.errors?.['required']) { Title is required. } @if
+          (bookForm.get('title')?.errors?.['maxlength']) { Title cannot exceed 50 characters. }
         </div>
+        }
+      </div>
 
-        <div class="mb-3 form-check">
-          <input type="checkbox" id="isRead" formControlName="isRead" class="form-check-input" />
-          <label class="form-check-label" for="isRead">Mark as Read</label>
-        </div>
+      <div class="mb-3 flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="isRead"
+          formControlName="isRead"
+          class="h-4 w-4 accent-blue-600"
+        />
+        <label for="isRead">Mark as Read</label>
+      </div>
 
-        <div class="mb-4 form-check">
-          <input
-            type="checkbox"
-            id="isFavorite"
-            formControlName="isFavorite"
-            class="form-check-input"
-          />
-          <label class="form-check-label" for="isFavorite">Mark as Favorite</label>
-        </div>
+      <div class="mb-4 flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="isFavorite"
+          formControlName="isFavorite"
+          class="h-4 w-4 accent-blue-600"
+        />
+        <label for="isFavorite">Mark as Favorite</label>
+      </div>
 
-        <button type="submit" class="btn btn-primary px-5 btn-lg">Save Book</button>
-      </form>
-    </div>
+      <button
+        type="submit"
+        class="rounded-md bg-blue-600 px-6 py-2.5 text-lg font-medium text-white transition-colors hover:bg-blue-700"
+      >
+        Save Book
+      </button>
+    </form>
   </div>
 </div>

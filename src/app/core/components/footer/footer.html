@@ -1,19 +1,19 @@
-<footer class="bg-light py-5 mt-auto">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-6 text-center text-md-start">
-        <p class="mb-0 text-secondary">
-          &copy; 2026 <span class="fw-bold">Simple App</span>. {{ 'footer.tagline' | transloco }}
+<footer class="mt-auto bg-gray-100 py-12">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="flex flex-wrap items-center">
+      <div class="w-full text-center md:w-1/2 md:text-left">
+        <p class="mb-0 text-gray-600">
+          &copy; 2026 <span class="font-bold">Simple App</span>. {{ 'footer.tagline' | transloco }}
         </p>
         <nav [attr.aria-label]="'footer.nav' | transloco">
-          <ul class="list-inline mb-0 mt-2">
-            <li class="list-inline-item">
-              <a href="#" class="footer-link text-decoration-none text-muted me-3">{{
+          <ul class="mt-2 mb-0 flex flex-wrap justify-center gap-4 md:justify-start">
+            <li>
+              <a href="#" class="text-gray-500 no-underline hover:text-gray-700">{{
                 'footer.privacy' | transloco
               }}</a>
             </li>
-            <li class="list-inline-item">
-              <a href="#" class="footer-link text-decoration-none text-muted">{{
+            <li>
+              <a href="#" class="text-gray-500 no-underline hover:text-gray-700">{{
                 'footer.accessibility' | transloco
               }}</a>
             </li>
@@ -21,14 +21,14 @@
         </nav>
       </div>
 
-      <div class="col-md-6 text-center text-md-end mt-4 mt-md-0">
+      <div class="mt-4 w-full text-center md:mt-0 md:w-1/2 md:text-right">
         <button
           type="button"
-          class="btn btn-outline-secondary btn-sm"
+          class="inline-flex items-center gap-1 rounded-md border border-gray-400 px-3 py-1.5 text-sm text-gray-700 transition-colors hover:bg-gray-200"
           (click)="scrollToTop()"
           [attr.aria-label]="'footer.backToTopAria' | transloco"
         >
-          <i class="bi bi-arrow-up" aria-hidden="true"></i> ↑ {{ 'footer.backToTop' | transloco }}
+          ↑ {{ 'footer.backToTop' | transloco }}
         </button>
       </div>
     </div>

@@ -1,85 +1,90 @@
-<div class="container mt-5">
+<div class="mx-auto mt-5 max-w-3xl px-2">
   @if (store.selectedBook(); as book) {
-  <section class="card shadow-lg border-0 overflow-hidden">
-    <div class="row g-0">
-      <div class="col">
-        <div class="card-body p-5">
-          <div aria-label="breadcrumb">
-            <small class="text-uppercase text-muted fw-bold">Book ID: {{ book.id }}</small>
-          </div>
+  <section class="overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-gray-200">
+    <div class="p-8">
+      <div aria-label="breadcrumb">
+        <small class="text-xs font-bold uppercase text-gray-500">Book ID: {{ book.id }}</small>
+      </div>
 
-          <div class="mb-4">
-            <label for="editTitleInput" class="form-label text-muted small fw-bold text-uppercase">
-              Edit Title
-            </label>
-            <div class="input-group input-group-lg">
-              <input
-                #editTitleInput
-                id="editTitleInput"
-                type="text"
-                class="form-control border-primary-subtle shadow-sm"
-                [ngModel]="store.editTitle()"
-                (ngModelChange)="store.updateEditTitle($event)"
-                placeholder="Enter new title..."
-                aria-describedby="unsavedChangesStatus"
-                autocomplete="off"
-              />
-              <button
-                class="btn btn-primary px-4"
-                type="button"
-                [attr.aria-label]="isDirty() ? 'Save changes to title' : 'No changes to save'"
-                (click)="onSaveTitle()"
-              >
-                Save
-              </button>
-            </div>
-
-            <div id="unsavedChangesStatus" aria-live="polite" class="mt-1 min-height-20">
-              @if (isDirty()) {
-              <span class="form-text text-warning fw-bold">
-                <i class="bi bi-info-circle" aria-hidden="true"></i> You have unsaved changes
-              </span>
-              }
-            </div>
-          </div>
-
-          <h1 id="book-detail-title" class="display-4 fw-bold mb-3 text-dark">
-            {{ book.title }}
-          </h1>
-
-          <p class="text-secondary mb-4">
-            Master the art of software engineering with this essential guide. This book is a
-            cornerstone of modern development practices.
-          </p>
-
-          <div class="d-flex gap-3 mt-5">
-            <button
-              class="btn btn-lg px-4 border"
-              [ngClass]="{ 'btn-outline-primary': book.isRead, 'btn-light': !book.isRead }"
-              (click)="onUpdateBook(book.id, { isRead: !book.isRead })"
-              [attr.aria-pressed]="book.isRead"
-              [attr.aria-label]="'Mark ' + book.title + ' as read'"
-            >
-              {{ book.isRead ? 'Mark as Unread' : 'Mark as Read' }}
-            </button>
-
-            <button
-              class="btn btn-lg px-4 border"
-              [ngClass]="{ 'btn-outline-primary': book.isFavorite, 'btn-light': !book.isFavorite }"
-              (click)="onUpdateBook(book.id, { isFavorite: !book.isFavorite })"
-              [attr.aria-pressed]="book.isFavorite"
-              [attr.aria-label]="'Add ' + book.title + ' to favorites'"
-            >
-              {{ book.isFavorite ? 'Remove from favorites' : 'Add to Favorites' }}
-            </button>
-          </div>
+      <div class="mb-4">
+        <label
+          for="editTitleInput"
+          class="mb-1 block text-sm font-bold uppercase text-gray-500"
+        >
+          Edit Title
+        </label>
+        <div class="flex">
+          <input
+            #editTitleInput
+            id="editTitleInput"
+            type="text"
+            class="w-full rounded-l-md border border-blue-200 px-3 py-2 text-lg shadow-sm outline-none focus:border-blue-500"
+            [ngModel]="store.editTitle()"
+            (ngModelChange)="store.updateEditTitle($event)"
+            placeholder="Enter new title..."
+            aria-describedby="unsavedChangesStatus"
+            autocomplete="off"
+          />
+          <button
+            class="rounded-r-md bg-blue-600 px-4 font-medium text-white transition-colors hover:bg-blue-700"
+            type="button"
+            [attr.aria-label]="isDirty() ? 'Save changes to title' : 'No changes to save'"
+            (click)="onSaveTitle()"
+          >
+            Save
+          </button>
         </div>
+
+        <div id="unsavedChangesStatus" aria-live="polite" class="mt-1 min-h-5">
+          @if (isDirty()) {
+          <span class="text-sm font-bold text-yellow-600"> ⓘ You have unsaved changes </span>
+          }
+        </div>
+      </div>
+
+      <h1 id="book-detail-title" class="mb-3 text-4xl font-bold text-gray-900">
+        {{ book.title }}
+      </h1>
+
+      <p class="mb-4 text-gray-600">
+        Master the art of software engineering with this essential guide. This book is a
+        cornerstone of modern development practices.
+      </p>
+
+      <div class="mt-5 flex flex-wrap gap-3">
+        <button
+          class="rounded-md border px-4 py-2 text-lg transition-colors"
+          [ngClass]="
+            book.isRead
+              ? 'border-blue-600 text-blue-600 hover:bg-blue-50'
+              : 'border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200'
+          "
+          (click)="onUpdateBook(book.id, { isRead: !book.isRead })"
+          [attr.aria-pressed]="book.isRead"
+          [attr.aria-label]="'Mark ' + book.title + ' as read'"
+        >
+          {{ book.isRead ? 'Mark as Unread' : 'Mark as Read' }}
+        </button>
+
+        <button
+          class="rounded-md border px-4 py-2 text-lg transition-colors"
+          [ngClass]="
+            book.isFavorite
+              ? 'border-blue-600 text-blue-600 hover:bg-blue-50'
+              : 'border-gray-300 bg-gray-100 text-gray-800 hover:bg-gray-200'
+          "
+          (click)="onUpdateBook(book.id, { isFavorite: !book.isFavorite })"
+          [attr.aria-pressed]="book.isFavorite"
+          [attr.aria-label]="'Add ' + book.title + ' to favorites'"
+        >
+          {{ book.isFavorite ? 'Remove from favorites' : 'Add to Favorites' }}
+        </button>
       </div>
     </div>
   </section>
   } @else {
-  <div class="shadow-sm border-0 py-4 text-center" role="status">
-    <h2 class="h4 mb-0">Select a Book from the Table</h2>
+  <div class="rounded-lg py-4 text-center shadow-sm ring-1 ring-gray-200" role="status">
+    <h2 class="text-xl font-semibold">Select a Book from the Table</h2>
   </div>
   }
 </div>

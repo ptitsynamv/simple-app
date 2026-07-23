@@ -25,9 +25,6 @@ components do **not** declare `ChangeDetectionStrategy.OnPush`; change detection
 signals. Prefer **signals** over RxJS `Subject`s for state.
 
 - Component/directive selector prefix is **`app-`** (e.g. `app-books-shell`, `[appMenubar]`).
-- Styles are **SCSS**; Bootstrap 5 + `@ng-bootstrap/ng-bootstrap` + Popper are the UI layer
-  (Bootstrap/Popper JS is injected via `angular.json` `scripts`). CDK provides `Dialog`,
-  `LiveAnnouncer`, and `a11y` utilities.
 - `strict` TypeScript with `noPropertyAccessFromIndexSignature`, `noUnusedLocals`,
   `strictTemplates`. No `any`.
 - Path aliases: `@core/*` → `src/app/core/*`, `@shared/*` → `src/app/shared/*`,

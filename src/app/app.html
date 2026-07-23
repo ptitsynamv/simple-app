@@ -1,15 +1,15 @@
 <a
   href="#main-content"
-  class="visually-hidden-focusable p-2 bg-primary text-white skip-link"
+  class="skip-link p-2"
   (click)="skipToContent($event)"
 >
   {{ 'a11y.skipToContent' | transloco }}
 </a>
 
-<div class="d-flex flex-column min-vh-100">
+<div class="flex min-h-screen flex-col">
   <app-header />
 
-  <main #mainContent id="main-content" class="flex-grow-1" tabindex="-1">
+  <main #mainContent id="main-content" class="grow" tabindex="-1">
     <router-outlet />
   </main>
 

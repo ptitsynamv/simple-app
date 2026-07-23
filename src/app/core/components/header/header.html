@@ -1,61 +1,77 @@
-<header class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm">
-  <div class="container">
+<header class="sticky top-0 z-40 border-b border-gray-200 bg-gray-50 shadow-sm">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 py-3">
     <a
       routerLink="/"
       [attr.aria-label]="'header.homeAria' | transloco"
-      class="navbar-brand fw-bold d-flex align-items-center"
+      class="navbar-brand flex items-center font-bold text-gray-900 no-underline"
     >
-      <span class="text-primary me-1" aria-hidden="true">❤</span> Simple App
+      <span class="mr-1 text-blue-600" aria-hidden="true">❤</span> Simple App
     </a>
 
     <button
       type="button"
-      class="navbar-toggler"
-      data-bs-toggle="collapse"
-      data-bs-target="#appNavbar"
+      class="inline-flex items-center rounded-md border border-gray-300 p-2 text-gray-700 hover:bg-gray-100 lg:hidden"
+      [attr.aria-expanded]="menuOpen()"
       aria-controls="appNavbar"
-      aria-expanded="false"
       [attr.aria-label]="'header.toggleNav' | transloco"
+      (click)="toggleMenu()"
     >
-      <span class="navbar-toggler-icon"></span>
+      <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
     </button>
 
-    <nav id="appNavbar" class="collapse navbar-collapse" [attr.aria-label]="'header.mainNav' | transloco">
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center" role="menubar" appMenubar>
-        <li class="nav-item" role="none">
+    <nav
+      id="appNavbar"
+      class="w-full lg:block lg:w-auto"
+      [class.hidden]="!menuOpen()"
+      [attr.aria-label]="'header.mainNav' | transloco"
+    >
+      <ul
+        class="flex flex-col items-stretch gap-1 py-2 lg:flex-row lg:items-center lg:gap-2 lg:py-0"
+        role="menubar"
+        appMenubar
+      >
+        <li role="none">
           <a
             routerLink="/books-shell"
-            routerLinkActive="active"
+            routerLinkActive="bg-gray-200 font-semibold text-blue-700"
             ariaCurrentWhenActive="page"
             role="menuitem"
-            class="nav-link px-3"
+            class="block rounded-md px-3 py-2 text-gray-700 no-underline hover:bg-gray-200"
+            (click)="closeMenu()"
           >
             {{ 'nav.books' | transloco }}
           </a>
         </li>
 
-        <li class="nav-item" role="none">
+        <li role="none">
           <a
             routerLink="/counter"
-            routerLinkActive="active"
+            routerLinkActive="bg-gray-200 font-semibold text-blue-700"
             ariaCurrentWhenActive="page"
             role="menuitem"
-            class="nav-link px-3"
+            class="block rounded-md px-3 py-2 text-gray-700 no-underline hover:bg-gray-200"
+            (click)="closeMenu()"
           >
             {{ 'nav.counter' | transloco }}
           </a>
         </li>
 
-        <li class="nav-item me-lg-2 my-2 my-lg-0" role="none">
+        <li role="none" class="py-1 lg:py-0">
           <div
-            class="btn-group btn-group-sm"
+            class="inline-flex overflow-hidden rounded-md border border-gray-300"
             role="group"
             [attr.aria-label]="'language.label' | transloco"
           >
             <button
               type="button"
-              class="btn btn-outline-secondary"
-              [class.active]="lang.activeLang() === 'en'"
+              class="px-3 py-1 text-sm font-medium transition-colors"
+              [class]="
+                lang.activeLang() === 'en'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
+              "
               [attr.aria-pressed]="lang.activeLang() === 'en'"
               [attr.aria-label]="'language.en' | transloco"
               (click)="lang.setLanguage('en')"
@@ -64,8 +80,12 @@
             </button>
             <button
               type="button"
-              class="btn btn-outline-secondary"
-              [class.active]="lang.activeLang() === 'it'"
+              class="border-l border-gray-300 px-3 py-1 text-sm font-medium transition-colors"
+              [class]="
+                lang.activeLang() === 'it'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-white text-gray-700 hover:bg-gray-100'
+              "
               [attr.aria-pressed]="lang.activeLang() === 'it'"
               [attr.aria-label]="'language.it' | transloco"
               (click)="lang.setLanguage('it')"
@@ -76,61 +96,68 @@
         </li>
 
         @if (store.isPending()) {
-        <li class="nav-item dropdown" role="none">
-          <div class="spinner-border spinner-border-sm me-2" role="status">
-            <span class="visually-hidden">{{ 'header.loadingUser' | transloco }}</span>
+        <li role="none" class="px-3 py-2">
+          <div
+            class="h-5 w-5 animate-spin rounded-full border-2 border-gray-300 border-t-blue-600"
+            role="status"
+          >
+            <span class="sr-only">{{ 'header.loadingUser' | transloco }}</span>
           </div>
         </li>
         } @else if (store.error()) {
-        <li class="nav-item dropdown" role="none">
-          <span class="text-warning small" role="alert">
-            <i class="bi bi-exclamation-triangle"></i> {{ 'header.loginError' | transloco }}
+        <li role="none" class="px-3 py-2">
+          <span class="text-sm text-yellow-600" role="alert">
+            ⚠ {{ 'header.loginError' | transloco }}
           </span>
         </li>
-        } @else if (store.userInfo(); as userInfo){
-        <li class="nav-item dropdown" role="none">
+        } @else if (store.userInfo(); as userInfo) {
+        <li role="none" class="relative">
           <button
             type="button"
-            id="  "
             role="menuitem"
             aria-haspopup="true"
-            aria-expanded="false"
+            [attr.aria-expanded]="userMenuOpen()"
             [attr.aria-label]="'header.userSettings' | transloco"
-            data-bs-toggle="dropdown"
-            class="btn btn-link dropdown-toggle d-flex align-items-center text-dark text-decoration-none p-0"
+            class="flex items-center gap-1 rounded-md p-0 text-gray-900"
+            (click)="toggleUserMenu()"
           >
-            <img aria-hidden="true" class="user-avatar" [src]="userInfo.picture" />
-            <span class="fw-medium small d-none d-md-inline ms-1">{{ userInfo.name }}</span>
+            <img
+              aria-hidden="true"
+              class="h-12 w-12 rounded-full object-cover"
+              [src]="userInfo.picture"
+            />
+            <span class="hidden text-sm font-medium md:inline">{{ userInfo.name }}</span>
           </button>
 
+          @if (userMenuOpen()) {
           <ul
-            class="dropdown-menu dropdown-menu-end shadow-sm"
+            class="absolute right-0 z-50 mt-2 min-w-40 rounded-md border border-gray-200 bg-white py-1 shadow-lg"
             role="menu"
-            aria-labelledby="userMenu"
           >
             <li role="none">
               <button
                 type="button"
                 role="menuitem"
-                class="dropdown-item py-2"
+                class="flex w-full items-center gap-2 px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
                 (click)="handleLogout()"
               >
-                <i aria-hidden="true" class="bi bi-box-arrow-right me-2"></i>
-                {{ 'auth.logout' | transloco }}
+                ↩ {{ 'auth.logout' | transloco }}
               </button>
             </li>
           </ul>
+          }
         </li>
-        }@else {
-        <button
-          type="button"
-          class="btn btn-primary px-4 btn-login"
-          (click)="handleLogin()"
-          [attr.aria-label]="'auth.loginAria' | transloco"
-        >
-          <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
-          {{ 'auth.login' | transloco }}
-        </button>
+        } @else {
+        <li role="none">
+          <button
+            type="button"
+            class="inline-flex items-center gap-1 rounded-md bg-blue-600 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-700"
+            (click)="handleLogin()"
+            [attr.aria-label]="'auth.loginAria' | transloco"
+          >
+            → {{ 'auth.login' | transloco }}
+          </button>
+        </li>
         }
       </ul>
     </nav>

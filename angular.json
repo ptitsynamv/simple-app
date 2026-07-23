@@ -31,10 +31,9 @@
               }
             ],
             "styles": ["src/styles.scss"],
-            "polyfills": ["@angular/localize/init"],
+            "polyfills": [ ],
             "scripts": [
-              "node_modules/@popperjs/core/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/@popperjs/core/dist/umd/popper.min.js"
             ]
           },
           "configurations": {

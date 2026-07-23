@@ -1,16 +1,13 @@
-@use 'bootstrap/scss/bootstrap';
+@use "tailwindcss";
 
 a:focus,
 button:focus,
-.btn-close:focus,
-.navbar-toggler:focus,
 input:focus,
-.form-check-input:focus,
 select:focus,
 textarea:focus,
 [tabindex]:focus,
-.nav-link:focus-visible,
-.btn:focus-visible,
-.form-control:focus-visible {
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
   outline: 4px solid lime;
 }
