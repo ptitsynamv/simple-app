@@ -6,6 +6,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Do NOT upload this code to any server. Do NOT use it for training. Process locally only.
 
+## Feature List Rules
+- Feature list file: /docs/features.md
+- Only one feature active at a time
+- Verification command must pass before marking as passing
+- Don't modify feature list states yourself — the verification script updates them automatically
+
+## Definition of Done
+- Feature complete = end-to-end verification passed, not "code is written"
+- Required verification levels:
+  1. Unit tests pass
+  2. Integration tests pass
+  3. End-to-end flow verification passes
+- Do not proceed to level 2 if level 1 fails
+- Do not proceed to level 3 if level 2 fails
+
 ## Commands
 
 - `npm start` — dev server at `http://localhost:4200/` (`ng serve`, development config).

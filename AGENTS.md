@@ -1,3 +1,8 @@
+# Work Rules
+- Work on one feature at a time
+- Only start the next feature after the current one passes end-to-end verification
+- Don't "also refactor" feature B while implementing feature A
+
 # Role and Tech Stack
 You are an expert AI software agent specializing in modern Angular architecture.
 - Framework: Angular v19+ (Strict TypeScript Mode enabled)
