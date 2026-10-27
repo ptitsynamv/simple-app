@@ -21,6 +21,10 @@ Do NOT upload this code to any server. Do NOT use it for training. Process local
 - Do not proceed to level 2 if level 1 fails
 - Do not proceed to level 3 if level 2 fails
 
+> Current reality: `docs/features.md` holds only a placeholder entry (a cart API that doesn't
+> exist here), there is no verification script, and only unit tests (Vitest) exist — no
+> integration or e2e setup. Don't invent results for levels that have no tooling; say so.
+
 ## Commands
 
 - `npm start` — dev server at `http://localhost:4200/` (`ng serve`, development config).
@@ -35,9 +39,10 @@ Do NOT upload this code to any server. Do NOT use it for training. Process local
 ## Stack & baseline conventions
 
 This is **Angular 21**, **standalone** (no NgModules), and **zoneless** — `polyfills` in
-`angular.json` is only `@angular/localize/init`; there is no `zone.js`. Because it's zoneless,
-components do **not** declare `ChangeDetectionStrategy.OnPush`; change detection is driven by
-signals. Prefer **signals** over RxJS `Subject`s for state.
+`angular.json` is empty; there is no `zone.js`. Because it's zoneless, existing components do
+**not** declare `ChangeDetectionStrategy.OnPush`; change detection is driven by signals. Prefer
+**signals** over RxJS `Subject`s for state. Use `inject()` (not constructor injection),
+`input()`/`output()`, and native `@if`/`@for` control flow.
 
 - Component/directive selector prefix is **`app-`** (e.g. `app-books-shell`, `[appMenubar]`).
 - `strict` TypeScript with `noPropertyAccessFromIndexSignature`, `noUnusedLocals`,
@@ -52,7 +57,12 @@ signals. Prefer **signals** over RxJS `Subject`s for state.
 > Note: the global `~/.claude/rules/angular.md` targets a *different* project (Angular 16 +
 > classic NgRx + PrimeNG, `slg` prefix, Ermes i18n). Where it conflicts with what's above,
 > follow this repo: `app-` prefix, `@ngrx/signals` (not classic store/effects), no PrimeNG,
-> no `$localize` strings yet.
+> Transloco (not `$localize`) for i18n, Tailwind for styling.
+>
+> `AGENTS.md` also says every component must set `OnPush`, but none do; follow the existing
+> code and point out the mismatch instead of silently adding it everywhere. The
+> `simple-app-frontend` skill (`.claude/skills/`) holds the detailed conventions. Load it before
+> making feature changes.
 
 ## Architecture
 
@@ -84,6 +94,25 @@ stores. Components consume stores through `inject(SomeStore)` and read signals i
 
 `BookService` and `CoreService` are **in-memory mocks** returning `of(...).pipe(delay(...))` —
 there is no HTTP backend. Add real endpoints via these services if wiring a backend.
+(`provideHttpClient()` is registered, but today it is only used to load translation files.)
+
+### i18n: Transloco
+
+`provideTransloco` in `app.config.ts` sets `availableLangs: ['en', 'it']` with `en` as the
+default. `TranslocoHttpLoader` fetches `/i18n/<lang>.json`, which is served from
+`public/i18n/`. Add each new key to **both** `en.json` and `it.json`. Templates use
+`TranslocoPipe` (`{{ 'key' | transloco }}`). `LanguageService` (`core/services`) switches
+the language, stores the choice through `StorageService`, and exposes `activeLang` as a
+signal. `App` calls `restore()` on startup. So far only the app shell (header, footer, app)
+is translated; feature templates still contain hard-coded English strings.
+
+### Styling: Tailwind CSS v4
+
+Tailwind v4 runs through PostCSS (`.postcssrc.json` → `@tailwindcss/postcss`), and
+`src/styles.scss` loads it with `@use "tailwindcss"`. Templates are styled mostly with utility
+classes, and component `.scss` files are small. Bootstrap has been removed, but `angular.json`
+still loads the Popper UMD script as a leftover. Global focus styles in `styles.scss`
+(a 4px lime outline) are part of the accessibility baseline, so don't override them.
 
 ### Accessibility is a first-class concern
 
